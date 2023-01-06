@@ -1,0 +1,275 @@
+
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  PubSubnets:
+    Type: String
+    Default: subnet-082750b5ae21a79d0
+  KieranCDNcert:
+    Type: String
+    Default: arn:aws:acm:us-east-1:311668141734:certificate/318b8b77-afd0-4a57-b4e5-b9eae509d4b2
+  KieranALBcert:
+    Type: String
+    Default: arn:aws:acm:eu-west-1:311668141734:certificate/9b7a4dfc-9a0a-43eb-8237-0b4390bff972
+  R53HZ:
+    Type: String
+    Default: devops-dev.alit.co.za.
+  KieranCDNaliases:
+    Type: String
+    Default: kieran.devops-dev.alit.co.za
+    
+Resources: 
+  SSHP22:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH & http access
+      VpcId: vpc-0441f0ed03f0020af
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+
+  KieranALBSecGrp:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Allow Port 80 and 443
+      VpcId: vpc-0441f0ed03f0020af
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+
+  AppLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: KieranALB
+      Scheme: internet-facing
+      SecurityGroups:
+      - !Ref KieranALBSecGrp
+      Subnets: 
+      - subnet-082750b5ae21a79d0
+      - subnet-011c03bcc5bc7c71d
+      Tags: 
+        - Key: OWNER
+          Value: Kieran@al.co.za
+      Type: application
+
+  ALBListener:    
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties: 
+      DefaultActions: 
+        - Type: forward
+          TargetGroupArn: !Ref ALBTargetGroup
+          ForwardConfig:
+            TargetGroups:
+              - TargetGroupArn: !Ref ALBTargetGroup
+      LoadBalancerArn: !Ref AppLoadBalancer
+      Port: 443
+      Protocol: HTTPS
+      Certificates:
+        - CertificateArn: !Ref KieranALBcert       
+
+  ALBTargetGroup:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      HealthCheckIntervalSeconds: 30
+      HealthCheckEnabled: true
+      Matcher:
+        HttpCode: 200-399
+      Name: KieranTG
+      Port: 80
+      Protocol: HTTP
+      Targets:
+        - Id: !Ref KieranEc2
+          Port: 80
+      VpcId: vpc-0441f0ed03f0020af
+      Tags:
+        - Key: OWNER
+          Value: Kieran@al.co.za
+
+  KieranCDN:
+    Type: 'AWS::CloudFront::Distribution'
+    Properties:
+      DistributionConfig:
+        Comment: 'Kieran Cloudfront Distribution'
+        Origins:
+          - DomainName: !GetAtt
+              - AppLoadBalancer
+              - DNSName
+            Id: AppLoadBalancer
+          # - DomainName: !GetAtt
+          #     - AppLoadBalancer
+          #     - DNSName
+          #   Id: AppLoadBalancer
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: 'match-viewer'
+              OriginKeepaliveTimeout: 60
+              OriginReadTimeout: 30
+              OriginSSLProtocols:
+                - TLSv1
+                - TLSv1.1
+                - TLSv1.2
+                - SSLv3
+        Enabled: true
+        HttpVersion: 'http2'
+        Aliases:
+          - !Ref 'KieranCDNaliases'
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+            - DELETE
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+          Compress: false
+          DefaultTTL: 31536000
+          MaxTTL: 31536000
+          MinTTL: 0
+          TargetOriginId: AppLoadBalancer
+          ForwardedValues:
+            QueryString: true
+            Cookies:
+              Forward: all
+            Headers:
+              - '*'
+          ViewerProtocolPolicy: redirect-to-https
+        PriceClass: PriceClass_All
+        ViewerCertificate:
+          AcmCertificateArn: !Ref KieranCDNcert
+          SslSupportMethod:  sni-only
+
+  KieranR53:
+    Type: 'AWS::Route53::RecordSet'
+    Properties:
+      AliasTarget:
+        DNSName: !GetAtt 
+          - KieranCDN
+          - DomainName
+        HostedZoneId: Z2FDTNDATAQYW2
+      HostedZoneName: !Ref R53HZ
+      Name: !Ref KieranCDNaliases
+      Type: A  
+
+  # KieranHZ:
+  #   Type: AWS::Route53::HostedZone
+  #   Properties: 
+  #     HostedZoneConfig: 
+  #       Comment: test
+  #     HostedZoneTags: 
+  #     - Key: OWNER
+  #       Value: Kieran@al.co.za
+  #     Name: kieran.devops-dev.alit.co.za
+  #     VPCs: 
+  #     - VPCId: vpc-0441f0ed03f0020af
+  #       VPCRegion: eu-west-1
+  
+  KieranS3:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: kierans3bucket
+      Tags:
+        - Key: OWNER
+          Value: Kieran@al.co.za
+
+  KieranS3Policy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument: 
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal: "*"
+          Resource: !Join
+            - ''
+            - - 'arn:aws:s3:::'
+              - !Ref KieranS3
+              - /*
+          Action:
+          - S3:getObject
+      Bucket: !Ref KieranS3
+
+  KieranLaunchTemp:
+    Type: 'AWS::EC2::LaunchTemplate'
+    Properties:
+      LaunchTemplateName: KieranLC
+      LaunchTemplateData:
+        InstanceType: t2.micro
+        ImageId: ami-0bb169f74ff4d74f2
+        KeyName: KieranKP 
+        IamInstanceProfile:
+          Arn:
+            Fn::GetAtt:
+            - KieranIamInstanceProfile
+            - Arn
+        NetworkInterfaces:
+          - Groups:
+            - !Ref SSHP22
+            AssociatePublicIpAddress: false
+            DeviceIndex: 0
+            DeleteOnTermination: true
+            SubnetId: !Ref PubSubnets
+        UserData:
+          'Fn::Base64': |
+            #!/bin/bash -xe
+            sudo sleep 30
+            sudo systemctl start nginx 
+        TagSpecifications:
+          - ResourceType: volume
+            Tags:
+              - Key: OWNER
+                Value: Kieran@al.co.za
+          - ResourceType: instance
+            Tags:
+              - Key: OWNER
+                Value: Kieran@al.co.za
+
+  KieranRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+        - arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess
+        - arn:aws:iam::aws:policy/AmazonSSMFullAccess
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      Tags:
+        - Key: OWNER
+          Value: Kieran@al.co.za
+
+  KieranEc2:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      LaunchTemplate:
+        LaunchTemplateId: !Ref KieranLaunchTemp
+        Version: !GetAtt 
+          - KieranLaunchTemp
+          - LatestVersionNumber
+      Tags:
+        - Key: OWNER
+          Value: Kieran@al.co.za
+        
+  KieranIamInstanceProfile:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+      Path: /
+      Roles:
+        - !Ref KieranRole
+        
+  
