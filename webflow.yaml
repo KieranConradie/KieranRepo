@@ -20,7 +20,7 @@ Parameters:
 
     
     # lets try it one more time
-    
+
 Resources: 
   SSHP22:
     Type: AWS::EC2::SecurityGroup
@@ -274,5 +274,3 @@ Resources:
       Path: /
       Roles:
         - !Ref KieranRole
-        
-  
