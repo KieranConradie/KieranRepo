@@ -28,6 +28,10 @@ Parameters:
     Type: String
     Default: KieranDemo
     AllowedPattern: "[A-Za-z0-9-]+"
+  
+  FullRepoId:
+    Type: String
+    Default: KieranConradie/KieranRepo
 
 Resources:
   PipelineArtifactsBucket:
@@ -39,8 +43,8 @@ Resources:
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: KieranPipeTest
-      RoleArn: !GetAtt CodePipelineRole.Arn
+      Name: KieranPipeLine
+      RoleArn: arn:aws:iam::311668141734:role/service-role/AWSCodePipelineServiceRole-eu-west-1-Kieran_pipe1
       ArtifactStore:
         Type: S3
         Location: !Ref PipelineArtifactsBucket
@@ -51,17 +55,18 @@ Resources:
           InputArtifacts: []
           ActionTypeId:
             Category: Source
-            Owner: ThirdParty
+            Owner: AWS
             Version: 1
-            Provider: GitHub
+            Provider: CodeStarSourceConnection
           OutputArtifacts:
           - Name: SourceArtifact
           Configuration:
-            Owner: !Ref GitHubOwner
-            Repo: !Ref GitHubRepo
-            Branch: !Ref GitHubBranch
-            PollForSourceChanges: false
-            OAuthToken: '{{resolve:secretsmanager:Kieran_Git_Access:SecretString:Kieran_Git_Token}}'
+            ConnectionArn: arn:aws:codestar-connections:eu-west-1:311668141734:connection/0df4f9d2-c1db-4087-aefc-4f1973c13aac
+            BranchName: !Ref GitHubBranch
+            OutputArtifactFormat: "CODE_ZIP"
+            # PollForSourceChanges: false
+            FullRepositoryId: !Ref FullRepoId
+            # OAuthToken: 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
         
       - Name: Deploy
         Actions:
@@ -75,72 +80,98 @@ Resources:
             - Name: SourceArtifact
           Configuration:
             ActionMode: CREATE_UPDATE
-            Capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM, CAPABILITY_AUTO_EXPAND
+            Capabilities: CAPABILITY_NAMED_IAM
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             StackName: !Ref ApplicationStackName
-            TemplatePath: !Sub "SourceArtifact::webflow.yaml"
+            TemplatePath: "SourceArtifact::webflow.yaml"
           RunOrder: 1
       Tags:
         - Key: OWNER
           Value: Kieran@al.co.za
 
-  GithubWebhook:
-    Type: 'AWS::CodePipeline::Webhook'
-    Properties:
-      Authentication: GITHUB_HMAC
-      AuthenticationConfiguration:
-        SecretToken: '{{resolve:secretsmanager:Kieran_Git_Access:SecretString:Kieran_Git_Token}}'
-      RegisterWithThirdParty: 'true'
-      Filters:
-      - JsonPath: "$.ref"
-        MatchEquals: refs/heads/{Branch}
-      TargetPipeline: !Ref CodePipeline
-      TargetAction: Source
-      TargetPipelineVersion: !GetAtt CodePipeline.Version
+  # GithubWebhook:
+  #   Type: 'AWS::CodePipeline::Webhook'
+  #   Properties:
+  #     Authentication: GITHUB_HMAC
+  #     AuthenticationConfiguration:
+  #       SecretToken: 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
+  #     RegisterWithThirdParty: 'true'
+  #     Filters:
+  #     - JsonPath: "$.ref"
+  #       MatchEquals: refs/heads/{Branch}
+  #     TargetPipeline: !Ref CodePipeline
+  #     TargetAction: Source
+  #     TargetPipelineVersion: !GetAtt CodePipeline.Version
 
-  CodePipelineRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          Effect: Allow
-          Principal:
-            Service: codepipeline.amazonaws.com
-          Action: sts:AssumeRole
-      Policies:
-        - PolicyName : root
-          PolicyDocument: 
-            Version: 2012-10-17
-            Statement:
-              - Sid: CloudWachLogsPolicy
-                Effect: Allow
-                Action:
-                  - 'logs:CreateLogGroup'
-                  - 'logs:CreateLogStream'
-                  - 'logs:PutLogEvents'
-                Resource: 
-                  - '*'
-              - Sid: S3GettObjecttPolicy
-                Effect: Allow
-                Action:
-                  - 's3:GetObject'
-                  - 's3:GetObjectVersion' 
-                Resource: 
-                  - '*'
-              - Sid: S3PutObjectPolicy
-                Effect: Allow
-                Action:
-                  - 's3:PutObject'
-                Resource: 
-                  - '*'
-              - Sid: S3BucketIdentiy
-                Effect: Allow
-                Action:
-                  - 's3:GetBucketAcl'
-                  - 's3:GetBucketLocation'
-                Resource: 
-                  - '*'
+  # CodePipelineRole:
+  #   Type: AWS::IAM::Role
+  #   Properties:
+  #     AssumeRolePolicyDocument:
+  #       Version: "2012-10-17"
+  #       Statement:
+  #         - Effect: "Allow"
+  #           Principal:
+  #             Service:
+  #               - codepipeline.amazonaws.com
+  #               - cloudformation.amazonaws.com
+  #             AWS:
+  #               - arn:aws:iam::940373484827:root
+  #           Action: sts:AssumeRole
+  #     Policies:
+  #       - PolicyName : root
+  #         PolicyDocument: 
+  #           Version: 2012-10-17
+  #           Statement:
+  #             # - Sid: CloudWachLogsPolicy
+  #             #   Effect: Allow
+  #             #   Action:
+  #             #     - 'logs:CreateLogGroup'
+  #             #     - 'logs:CreateLogStream'
+  #             #     - 'logs:PutLogEvents'
+  #             #   Resource: 
+  #             #     - '*'
+  #             # - Sid: S3GettObjecttPolicy
+  #             #   Effect: Allow
+  #             #   Action:
+  #             #     - 's3:GetObject'
+  #             #     - 's3:GetObjectVersion' 
+  #             #   Resource: 
+  #             #     - '*'
+  #             # - Sid: S3PutObjectPolicy
+  #             #   Effect: Allow
+  #             #   Action:
+  #             #     - 's3:PutObject'
+  #             #   Resource: 
+  #             #     - '*'
+  #             # - Sid: S3BucketIdentiy
+  #             #   Effect: Allow
+  #             #   Action:
+  #             #     - 's3:GetBucketAcl'
+  #             #     - 's3:GetBucketLocation'
+  #             #   Resource: 
+  #             #     - '*'
+  #             - Resource: arn:aws:s3:::pipetest-pipelineartifactsbucket-ynfyijdzjlk8
+  #               Effect: Allow
+  #               Action:
+  #                 - s3:PutObject
+  #                 - s3:GetObject
+  #                 - s3:GetObjectVersion
+  #                 - s3:GetBucketVersioning
+  #                 - cloudformation:DescribeStacks
+  #                 - iam:PassRole
+  #                 - cloudformation:CreateStack
+  #                 - cloudformation:DeleteStack
+  #                 - cloudformation:DescribeStacks
+  #                 - cloudformation:UpdateStack
+  #                 - cloudformation:CreateChangeSet
+  #                 - cloudformation:DeleteChangeSet
+  #                 - cloudformation:DescribeChangeSet
+  #                 - cloudformation:ExecuteChangeSet
+  #                 - cloudformation:SetStackPolicy
+  #                 - cloudformation:ValidateTemplate
+  #                 - sts:AssumeRole
+  #                 - kms:Decrypt
+  #                 - "*"
                 
 
 
