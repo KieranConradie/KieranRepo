@@ -30,7 +30,7 @@ Resources:
       Scheme: internet-facing
       SecurityGroups: 
       - !ImportValue 
-        'Fn::Sub': ALBSecGroup
+        'Fn::Sub': test
       Subnets: 
       - subnet-082750b5ae21a79d0
       - subnet-011c03bcc5bc7c71d
@@ -193,7 +193,7 @@ Resources:
         NetworkInterfaces:
           - Groups: 
             - !ImportValue
-              'Fn::Sub': EC2SecGroup
+              'Fn::Sub': test
             AssociatePublicIpAddress: false
             DeviceIndex: 0
             DeleteOnTermination: true
@@ -252,90 +252,6 @@ Resources:
       Roles:
         - !Ref KieranRole
 
-  # KieranIPSet:
-  #   Type: AWS::WAFv2::IPSet
-  #   Properties:
-  #     Name: MyIPSet
-  #     Scope: REGIONAL
-  #     IPAddressVersion: IPV4
-  #     Addresses:
-  #       - '192.0.2.0/24'
-  #       - '198.51.100.0/24'
-
-  # KieranWebACL:
-  #   Type: AWS::WAFv2::WebACL
-  #   Properties:
-  #     Name: KieranWebACL
-  #     Scope: REGIONAL
-  #     DefaultAction:
-  #       Block: {}
-  #     VisibilityConfig:
-  #       CloudWatchMetricsEnabled: true
-  #       MetricName: KieranWebACL
-  #     Rules:
-  #     -
-  #       Name: MyRule
-  #       Priority: 1
-  #       Action:
-  #         Allow: {}
-  #       Statement:
-  #         IPSetReference: !Ref KieranIPSet.Arn
-            
-
-  # KieranWAFAssociation:
-  #   Type: AWS::WAFv2::WebACLAssociation
-  #   Properties:
-  #     ResourceArn: !Ref AppLoadBalancer
-  #     WebACLArn: !Ref KieranWebACL
-
-  # KieranSQLiMatchSet:
-  #   Type: AWS::WAFv2::SQLInjectionMatchSet
-  #   Properties:
-  #     Name: KieranSQLiMatchSet
-  #     SQLInjectionMatchTuples:
-  #       - FieldToMatch:
-  #           URI:
-  #         TextTransformation: NONE
-  #         ComparisonOperator: CONTAINS
-  #         TargetString: ";--"
-  #       - FieldToMatch:
-  #           URI:
-  #         TextTransformation: NONE
-  #         ComparisonOperator: CONTAINS
-  #         TargetString: "--"
-  #       - FieldToMatch:
-  #           URI:
-  #         TextTransformation: NONE
-  #         ComparisonOperator: CONTAINS
-  #         TargetString: "xp_"
-  #       - FieldToMatch:
-  #           URI:
-  #         TextTransformation: NONE
-  #         ComparisonOperator: CONTAINS
-  #         TargetString: "exec"
-  #       - FieldToMatch:
-  #           URI:
-  #         TextTransformation: NONE
-  #         ComparisonOperator: CONTAINS
-  #         TargetString: "union"
-   
-  # KieranWAFRule:
-  #   Type: AWS::WAFv2::Rule
-  #   Properties:
-  #     Name: KieranWAFRule
-  #     VisibilityConfig:
-  #       SampledRequestsEnabled: true
-  #       CloudWatchMetricsEnabled: true
-  #       MetricName: "MyMetricName"
-  #     Statement:
-  #       ByteMatch:
-  #         FieldToMatch:
-  #           URI:
-  #             SingleHeader:
-  #               Name: Referer
-  #         TargetString: "badword"
-  #         TextTransformation: NONE
-  #     Action:
-  #       Block: {}
+  
 
   

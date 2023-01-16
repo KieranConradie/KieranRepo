@@ -31,9 +31,15 @@ Outputs:
   EC2SecGroup:
     Value: !Ref SSHP22
     Description: Import EC2 security group
+    Export:
+      Name:
+        test
    
 
   ALBSecGroup:
     Value: !Ref KieranALBSecGrp
     Description: Import ALB security group
+    Export:
+      Name:
+        test
    
