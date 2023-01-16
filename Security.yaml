@@ -33,7 +33,7 @@ Outputs:
     Description: Import EC2 security group
     Export:
       Name:
-        test
+        ec2sec
    
 
   ALBSecGroup:
@@ -41,5 +41,5 @@ Outputs:
     Description: Import ALB security group
     Export:
       Name:
-        test2
+        albsec
    

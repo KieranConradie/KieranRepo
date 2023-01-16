@@ -29,7 +29,7 @@ Resources:
       Name: KieranALB
       Scheme: internet-facing
       SecurityGroups: 
-      - !ImportValue test2
+      - !ImportValue albsec
       Subnets: 
       - subnet-082750b5ae21a79d0
       - subnet-011c03bcc5bc7c71d
@@ -137,19 +137,6 @@ Resources:
       HostedZoneName: !Ref R53HZ
       Name: !Ref KieranCDNaliases
       Type: A  
-
-  # KieranHZ:
-  #   Type: AWS::Route53::HostedZone
-  #   Properties: 
-  #     HostedZoneConfig: 
-  #       Comment: test
-  #     HostedZoneTags: 
-  #     - Key: OWNER
-  #       Value: Kieran@al.co.za
-  #     Name: kieran.devops-dev.alit.co.za
-  #     VPCs: 
-  #     - VPCId: vpc-0441f0ed03f0020af
-  #       VPCRegion: eu-west-1
   
   KieranS3:
     Type: AWS::S3::Bucket
@@ -191,7 +178,7 @@ Resources:
             - Arn
         NetworkInterfaces:
           - Groups: 
-            - !ImportValue test
+            - !ImportValue ec2sec
             AssociatePublicIpAddress: false
             DeviceIndex: 0
             DeleteOnTermination: true
