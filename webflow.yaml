@@ -29,7 +29,7 @@ Resources:
       Name: KieranALB
       Scheme: internet-facing
       SecurityGroups: 
-      - !ImportValue test
+      - !ImportValue test2
       Subnets: 
       - subnet-082750b5ae21a79d0
       - subnet-011c03bcc5bc7c71d

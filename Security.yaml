@@ -41,5 +41,5 @@ Outputs:
     Description: Import ALB security group
     Export:
       Name:
-        test
+        test2
    
