@@ -29,7 +29,7 @@ Resources:
       Name: KieranALB
       Scheme: internet-facing
       SecurityGroups: 
-      - Fn::ImportValue: !Sub ALBSECGRP
+      - Fn::ImportValue: !Sub ${Security}-ALBSECGRP'
       Subnets: 
       - subnet-082750b5ae21a79d0
       - subnet-011c03bcc5bc7c71d
@@ -191,7 +191,7 @@ Resources:
             - Arn
         NetworkInterfaces:
           - Groups:
-            - Fn::ImportValue:: !Sub SSHP22
+            - Fn::ImportValue:: !Sub !Sub ${Security}-SSHP22'
             AssociatePublicIpAddress: false
             DeviceIndex: 0
             DeleteOnTermination: true

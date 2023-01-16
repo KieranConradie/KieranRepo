@@ -32,10 +32,10 @@ Outputs:
     Value: !Ref SSHP22
     Description: Import EC2 security group
     Export:
-    Name: SSHP22
+    Name: !Sub "${AWS::StackName}-SSHP22"
 
   ALBSecGroup:
     Value: !Ref KieranALBSecGrp
     Description: Import ALB security group
     Export:
-    Name: ALBSECGRP
+    Name: !Sub "${AWS::StackName}-ALBSECGRP"
