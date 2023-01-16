@@ -30,7 +30,7 @@ Resources:
       Scheme: internet-facing
       SecurityGroups: 
       - !ImportValue 
-        'Fn::Sub': ALBSecGroup
+        'Fn::Sub': ALBSEC
       Subnets: 
       - subnet-082750b5ae21a79d0
       - subnet-011c03bcc5bc7c71d
@@ -193,7 +193,7 @@ Resources:
         NetworkInterfaces:
           - Groups: 
             - !ImportValue
-              'Fn::Sub': EC2SecGroup
+              'Fn::Sub': SSHP22
             AssociatePublicIpAddress: false
             DeviceIndex: 0
             DeleteOnTermination: true
