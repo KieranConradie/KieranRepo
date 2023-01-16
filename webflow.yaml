@@ -28,8 +28,8 @@ Resources:
     Properties:
       Name: KieranALB
       Scheme: internet-facing
-      SecurityGroups: 
-      - Fn::ImportValue: !Sub ALBSecGroup
+      SecurityGroups: !ImportValue 
+      - 'Fn::Sub': ALBSecGroup
       Subnets: 
       - subnet-082750b5ae21a79d0
       - subnet-011c03bcc5bc7c71d
@@ -190,8 +190,8 @@ Resources:
             - KieranIamInstanceProfile
             - Arn
         NetworkInterfaces:
-          - Groups:
-            - Fn::ImportValue:: !Sub EC2SecGroup
+          - Groups: !ImportValue
+            - 'Fn::Sub': EC2SecGroup
             AssociatePublicIpAddress: false
             DeviceIndex: 0
             DeleteOnTermination: true
