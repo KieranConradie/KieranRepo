@@ -68,9 +68,25 @@ Resources:
             FullRepositoryId: !Ref FullRepoId
             # OAuthToken: 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
         
-      - Name: Deploy
+      
+      - Name: ApplicationDeoloy
         Actions:
-        - Name: CloudFormationDeploy
+        - Name: Security
+          ActionTypeId:
+            Category: Deploy
+            Owner: AWS
+            Provider: CloudFormation
+            Version: '1'
+          InputArtifacts:
+            - Name: SourceArtifact
+          Configuration:
+            ActionMode: CREATE_UPDATE
+            Capabilities: CAPABILITY_NAMED_IAM
+            RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
+            StackName: KieranDemoSecurityStack
+            TemplatePath: "SourceArtifact::Security.yaml"
+          RunOrder: 1
+        - Name: Webflowstack
           ActionTypeId:
             Category: Deploy
             Owner: AWS
@@ -88,6 +104,7 @@ Resources:
       Tags:
         - Key: OWNER
           Value: Kieran@al.co.za
+        
 
   # GithubWebhook:
   #   Type: 'AWS::CodePipeline::Webhook'
