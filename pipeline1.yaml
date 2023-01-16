@@ -86,6 +86,13 @@ Resources:
             StackName: KieranDemoSecurityStack
             TemplatePath: "SourceArtifact::Security.yaml"
           RunOrder: 1
+        - Name: DeployApproval
+          ActionTypeId:
+            Category: Approval
+            Owner: AWS
+            Version: "1"
+            Provider: Manual
+          RunOrder: 2
         - Name: Webflowstack
           ActionTypeId:
             Category: Deploy
@@ -100,7 +107,7 @@ Resources:
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             StackName: !Ref ApplicationStackName
             TemplatePath: "SourceArtifact::webflow.yaml"
-          RunOrder: 2
+          RunOrder: 3
       Tags:
         - Key: OWNER
           Value: Kieran@al.co.za
