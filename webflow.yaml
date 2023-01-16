@@ -29,8 +29,7 @@ Resources:
       Name: KieranALB
       Scheme: internet-facing
       SecurityGroups: 
-      - !ImportValue 
-        'Fn::Sub': test
+      - !ImportValue test
       Subnets: 
       - subnet-082750b5ae21a79d0
       - subnet-011c03bcc5bc7c71d
@@ -192,8 +191,7 @@ Resources:
             - Arn
         NetworkInterfaces:
           - Groups: 
-            - !ImportValue
-              'Fn::Sub': test
+            - !ImportValue test
             AssociatePublicIpAddress: false
             DeviceIndex: 0
             DeleteOnTermination: true
