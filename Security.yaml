@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Resources:
+  SSHP22:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH & http access
+      VpcId: vpc-0441f0ed03f0020af
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+
+  KieranALBSecGrp:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Allow Port 80 and 443
+      VpcId: vpc-0441f0ed03f0020af
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+
+Outputs:
+  EC2SecGroup:
+    Value: !Ref SSHP22
+    Export:
+    Name: SSHP22
+
+  ALBSecGroup:
+    Value: !Ref KieranALBSecGrp
+    Export:
+    Name: ALBSECGRP

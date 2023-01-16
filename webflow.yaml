@@ -22,31 +22,6 @@ Parameters:
     # lets try it one more time
 
 Resources: 
-  SSHP22:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Allow SSH & http access
-      VpcId: vpc-0441f0ed03f0020af
-      SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: 0.0.0.0/0
-
-  KieranALBSecGrp:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: Allow Port 80 and 443
-      VpcId: vpc-0441f0ed03f0020af
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          CidrIp: 0.0.0.0/0
 
   AppLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
@@ -54,7 +29,7 @@ Resources:
       Name: KieranALB
       Scheme: internet-facing
       SecurityGroups:
-      - !Ref KieranALBSecGrp
+      - !ImportValue  ALBSECGRP
       Subnets: 
       - subnet-082750b5ae21a79d0
       - subnet-011c03bcc5bc7c71d
@@ -216,7 +191,7 @@ Resources:
             - Arn
         NetworkInterfaces:
           - Groups:
-            - !Ref SSHP22
+            - !ImportValue SSHP22
             AssociatePublicIpAddress: false
             DeviceIndex: 0
             DeleteOnTermination: true
@@ -274,3 +249,91 @@ Resources:
       Path: /
       Roles:
         - !Ref KieranRole
+
+  # KieranIPSet:
+  #   Type: AWS::WAFv2::IPSet
+  #   Properties:
+  #     Name: MyIPSet
+  #     Scope: REGIONAL
+  #     IPAddressVersion: IPV4
+  #     Addresses:
+  #       - '192.0.2.0/24'
+  #       - '198.51.100.0/24'
+
+  # KieranWebACL:
+  #   Type: AWS::WAFv2::WebACL
+  #   Properties:
+  #     Name: KieranWebACL
+  #     Scope: REGIONAL
+  #     DefaultAction:
+  #       Block: {}
+  #     VisibilityConfig:
+  #       CloudWatchMetricsEnabled: true
+  #       MetricName: KieranWebACL
+  #     Rules:
+  #     -
+  #       Name: MyRule
+  #       Priority: 1
+  #       Action:
+  #         Allow: {}
+  #       Statement:
+  #         IPSetReference: !Ref KieranIPSet.Arn
+            
+
+  # KieranWAFAssociation:
+  #   Type: AWS::WAFv2::WebACLAssociation
+  #   Properties:
+  #     ResourceArn: !Ref AppLoadBalancer
+  #     WebACLArn: !Ref KieranWebACL
+
+  # KieranSQLiMatchSet:
+  #   Type: AWS::WAFv2::SQLInjectionMatchSet
+  #   Properties:
+  #     Name: KieranSQLiMatchSet
+  #     SQLInjectionMatchTuples:
+  #       - FieldToMatch:
+  #           URI:
+  #         TextTransformation: NONE
+  #         ComparisonOperator: CONTAINS
+  #         TargetString: ";--"
+  #       - FieldToMatch:
+  #           URI:
+  #         TextTransformation: NONE
+  #         ComparisonOperator: CONTAINS
+  #         TargetString: "--"
+  #       - FieldToMatch:
+  #           URI:
+  #         TextTransformation: NONE
+  #         ComparisonOperator: CONTAINS
+  #         TargetString: "xp_"
+  #       - FieldToMatch:
+  #           URI:
+  #         TextTransformation: NONE
+  #         ComparisonOperator: CONTAINS
+  #         TargetString: "exec"
+  #       - FieldToMatch:
+  #           URI:
+  #         TextTransformation: NONE
+  #         ComparisonOperator: CONTAINS
+  #         TargetString: "union"
+   
+  # KieranWAFRule:
+  #   Type: AWS::WAFv2::Rule
+  #   Properties:
+  #     Name: KieranWAFRule
+  #     VisibilityConfig:
+  #       SampledRequestsEnabled: true
+  #       CloudWatchMetricsEnabled: true
+  #       MetricName: "MyMetricName"
+  #     Statement:
+  #       ByteMatch:
+  #         FieldToMatch:
+  #           URI:
+  #             SingleHeader:
+  #               Name: Referer
+  #         TargetString: "badword"
+  #         TextTransformation: NONE
+  #     Action:
+  #       Block: {}
+
+  
