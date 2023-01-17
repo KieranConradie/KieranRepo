@@ -46,58 +46,10 @@ Resources:
                     FieldToMatch:
                       UriPath: {}
                     PositionalConstraint: CONTAINS
-                    SearchStringBase64: L2d1aWRlQ29udGFpbmVyLmFmLmludGVybmFsc3VibWl0LmpzcA==
-                    TextTransformations:
-                      - Priority: 0
-                        Type: NONE
-                - ByteMatchStatement:
-                    FieldToMatch:
-                      UriPath: {}
-                    PositionalConstraint: CONTAINS
-                    SearchStringBase64: L2d1aWRlQ29udGFpbmVyLmFmLnN1Ym1pdC5qc3A=
-                    TextTransformations:
-                      - Priority: 0
-                        Type: NONE
-                - ByteMatchStatement:
-                    FieldToMatch:
-                      UriPath: {}
-                    PositionalConstraint: CONTAINS
-                    SearchStringBase64: L2xpYnMvZ3Jhbml0ZS9jc3JmL2NzcmYubWluLmpz
-                    TextTransformations:
-                      - Priority: 0
-                        Type: NONE
-                - ByteMatchStatement:
-                    FieldToMatch:
-                      UriPath: {}
-                    PositionalConstraint: CONTAINS
                     SearchStringBase64: L2xpYnMvZ3Jhbml0ZS9jc3JmL3Rva2VuLmpzb24=
                     TextTransformations:
                       - Priority: 0
                         Type: NONE
-                - ByteMatchStatement:
-                    FieldToMatch:
-                      UriPath: {}
-                    PositionalConstraint: CONTAINS
-                    SearchStringBase64: L2FwcHMv
-                    TextTransformations:
-                      - Priority: 0
-                        Type: LOWERCASE
-                - ByteMatchStatement:
-                    FieldToMatch:
-                      UriPath: {}
-                    PositionalConstraint: CONTAINS
-                    SearchStringBase64: L2NyeC8=
-                    TextTransformations:
-                      - Priority: 0
-                        Type: LOWERCASE
-                - ByteMatchStatement:
-                    FieldToMatch:
-                      UriPath: {}
-                    PositionalConstraint: CONTAINS
-                    SearchStringBase64: ZmQvYWYv
-                    TextTransformations:
-                      - Priority: 0
-                        Type: LOWERCASE
                 - ByteMatchStatement:
                     FieldToMatch:
                       UriPath: {}
@@ -157,8 +109,10 @@ Outputs:
         albsec
 
   WAF:
-    Value: !Ref KieranWAF
-    Description: Import Web ACL
+    Description: Web ACL ID
+    Value: !GetAtt 
+      - KieranWAF
+      - Id
     Export:
       Name:
         webacl
