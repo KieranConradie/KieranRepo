@@ -27,6 +27,119 @@ Resources:
           ToPort: 443
           CidrIp: 0.0.0.0/0
 
+  KieranWAF:
+    Type: 'AWS::WAFv2::WebACL'
+    Properties:
+      DefaultAction:
+        Allow: {}
+      Description: Kieran WAF.
+      Name: KieranWAF
+      Rules:
+        - Action:
+            Block: {}
+          Name: CustomRulesStringMatchRuleSet
+          Priority: 0
+          Statement:
+            OrStatement:
+              Statements:
+                - ByteMatchStatement:
+                    FieldToMatch:
+                      UriPath: {}
+                    PositionalConstraint: CONTAINS
+                    SearchStringBase64: L2d1aWRlQ29udGFpbmVyLmFmLmludGVybmFsc3VibWl0LmpzcA==
+                    TextTransformations:
+                      - Priority: 0
+                        Type: NONE
+                - ByteMatchStatement:
+                    FieldToMatch:
+                      UriPath: {}
+                    PositionalConstraint: CONTAINS
+                    SearchStringBase64: L2d1aWRlQ29udGFpbmVyLmFmLnN1Ym1pdC5qc3A=
+                    TextTransformations:
+                      - Priority: 0
+                        Type: NONE
+                - ByteMatchStatement:
+                    FieldToMatch:
+                      UriPath: {}
+                    PositionalConstraint: CONTAINS
+                    SearchStringBase64: L2xpYnMvZ3Jhbml0ZS9jc3JmL2NzcmYubWluLmpz
+                    TextTransformations:
+                      - Priority: 0
+                        Type: NONE
+                - ByteMatchStatement:
+                    FieldToMatch:
+                      UriPath: {}
+                    PositionalConstraint: CONTAINS
+                    SearchStringBase64: L2xpYnMvZ3Jhbml0ZS9jc3JmL3Rva2VuLmpzb24=
+                    TextTransformations:
+                      - Priority: 0
+                        Type: NONE
+                - ByteMatchStatement:
+                    FieldToMatch:
+                      UriPath: {}
+                    PositionalConstraint: CONTAINS
+                    SearchStringBase64: L2FwcHMv
+                    TextTransformations:
+                      - Priority: 0
+                        Type: LOWERCASE
+                - ByteMatchStatement:
+                    FieldToMatch:
+                      UriPath: {}
+                    PositionalConstraint: CONTAINS
+                    SearchStringBase64: L2NyeC8=
+                    TextTransformations:
+                      - Priority: 0
+                        Type: LOWERCASE
+                - ByteMatchStatement:
+                    FieldToMatch:
+                      UriPath: {}
+                    PositionalConstraint: CONTAINS
+                    SearchStringBase64: ZmQvYWYv
+                    TextTransformations:
+                      - Priority: 0
+                        Type: LOWERCASE
+                - ByteMatchStatement:
+                    FieldToMatch:
+                      UriPath: {}
+                    PositionalConstraint: CONTAINS
+                    SearchStringBase64: L2xpYnMv
+                    TextTransformations:
+                      - Priority: 0
+                        Type: LOWERCASE
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            MetricName: CustomRulesStringMatchRuleSet
+            SampledRequestsEnabled: true
+        - Name: AWSManagedRulesCommonRuleSet
+          Priority: 1
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSManagedRulesCommonRuleSet
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+        - Name: AWSManagedRulesSQLiRuleSet
+          Priority: 2
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSManagedRulesSQLiRuleSet
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesSQLiRuleSet
+      Scope: REGIONAL
+      VisibilityConfig:
+        CloudWatchMetricsEnabled: true
+        MetricName: KieranWAF
+        SampledRequestsEnabled: true
+
 Outputs:
   EC2SecGroup:
     Value: !Ref SSHP22
@@ -42,4 +155,11 @@ Outputs:
     Export:
       Name:
         albsec
+
+  WAF:
+    Value: !Ref KieranWAF
+    Description: Import Web ACL
+    Export:
+      Name:
+        webacl
    

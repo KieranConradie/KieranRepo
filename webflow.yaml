@@ -28,6 +28,7 @@ Resources:
     Properties:
       Name: KieranALB
       Scheme: internet-facing
+      WebACLArn: !ImportValue webacl
       SecurityGroups: 
       - !ImportValue albsec
       Subnets: 
