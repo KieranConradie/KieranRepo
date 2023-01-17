@@ -79,7 +79,7 @@ Resources:
     Type: 'AWS::CloudFront::Distribution'
     Properties:
       DistributionConfig:
-        WebACLId: !ImportValue webacl 
+        WebACLId: arn:aws:wafv2:eu-west-1:311668141734:regional/webacl/KieranWAF/6fce13f0-62a6-46dd-9b83-478df7499515
         Comment: 'Kieran Cloudfront Distribution'
         Origins:
           - DomainName: !GetAtt
