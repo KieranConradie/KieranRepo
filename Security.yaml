@@ -30,6 +30,9 @@ Resources:
   KieranWAF:
     Type: 'AWS::WAFv2::WebACL'
     Properties:
+      Tags:
+        - Key: OWNER
+          Value: Kieran@al.co.za
       DefaultAction:
         Allow: {}
       Description: Kieran WAF.
@@ -91,6 +94,7 @@ Resources:
         CloudWatchMetricsEnabled: true
         MetricName: KieranWAF
         SampledRequestsEnabled: true
+      
 
 Outputs:
   EC2SecGroup:
