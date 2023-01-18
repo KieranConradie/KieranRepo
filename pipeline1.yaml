@@ -33,6 +33,10 @@ Parameters:
     Type: String
     Default: KieranConradie/KieranRepo
 
+  NorthViginiaBucket:
+    Type: String
+    Default: arn:aws:s3:::cf-templates-15zl1hex6yzw9-us-east-1
+
 Resources:
   PipelineArtifactsBucket:
     Type: AWS::S3::Bucket
@@ -52,7 +56,7 @@ Resources:
             Type: S3
         - Region: us-east-1
           ArtifactStore:
-            Location: arn:aws:s3:::cf-templates-15zl1hex6yzw9-us-east-1
+            Location: !Ref NorthViginiaBucket
             Type: S3
       Stages:
       - Name: Source
