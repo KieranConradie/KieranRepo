@@ -35,7 +35,7 @@ Parameters:
 
   NorthViginiaBucket:
     Type: String
-    Default: arn:aws:s3:::cf-templates-15zl1hex6yzw9-us-east-1
+    Default: angeo-nv
 
 Resources:
   PipelineArtifactsBucket:

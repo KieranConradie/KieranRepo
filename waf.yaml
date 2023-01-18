@@ -71,10 +71,10 @@ Resources:
 
 Outputs:
   WAF:
-  Description: Web ACL ID
-  Value: !GetAtt 
-    - KieranWAF
-    - Id
-  Export:
-    Name:
-      webacl
+    Description: Web ACL ID
+    Value: !GetAtt 
+      - KieranWAF
+      - Id
+    Export:
+      Name:
+        webacl
