@@ -45,9 +45,15 @@ Resources:
     Properties:
       Name: KieranPipeLine
       RoleArn: arn:aws:iam::311668141734:role/service-role/AWSCodePipelineServiceRole-eu-west-1-Kieran_pipe1
-      ArtifactStore:
-        Type: S3
-        Location: !Ref PipelineArtifactsBucket
+      ArtifactStores:
+        - Region: eu-west-1
+          ArtifactStore:
+            Location: !Ref PipelineArtifactsBucket
+            Type: S3
+        - Region: us-east-1
+          ArtifactStore:
+            Location: !Ref PipelineArtifactsBucket
+            Type: S3
       Stages:
       - Name: Source
         Actions:
