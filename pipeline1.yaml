@@ -87,6 +87,7 @@ Resources:
             TemplatePath: "SourceArtifact::Security.yaml"
           RunOrder: 1
         - Name: WAF
+          Region: us-east-1
           ActionTypeId:
             Category: Deploy
             Owner: AWS
