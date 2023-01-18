@@ -44,6 +44,28 @@ Resources:
       VersioningConfiguration:
         Status: Enabled
 
+  KieranCodeBuildProject:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Name: KieranSSMBuild
+      ServiceRole: 
+        !Join ['',['arn:aws:iam::',!Ref "AWS::AccountId", ':role/deployer-role']]
+      Tags:
+        - Key: OWNER
+          Value: Kieran@al.co.za
+      Artifacts:
+        Packaging: NONE
+        Type: CODEPIPELINE
+        Name: // add
+      TimeoutInMinutes: 60
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: 'aws/codebuild/standard:4.0'
+        Type: LINUX_CONTAINER
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: buildspec.yaml
+
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -76,9 +98,23 @@ Resources:
             OutputArtifactFormat: "CODE_ZIP"
             # PollForSourceChanges: false
             FullRepositoryId: !Ref FullRepoId
-            # OAuthToken: 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
-        
-      
+                   
+      - Name: CodeBuild
+        Actions:
+        - Name: CodeBuild
+          ActionTypeId:
+            Category: Build
+            Owner: AWS
+            Provider: CodeBuild
+            Version: '1'
+          InputArtifacts:
+            - Name: SourceArtifact
+          OutputArtifacts:
+            - Name: //add
+          Configuration: 
+            - ProjectName: !Ref KieranCodeBuildProject
+          RunOrder: 1
+
       - Name: ApplicationDeploy
         Actions:
         - Name: Security
@@ -95,7 +131,7 @@ Resources:
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             StackName: KieranDemoSecurityStack
             TemplatePath: "SourceArtifact::Security.yaml"
-          RunOrder: 1
+          RunOrder: 2
         - Name: WAF
           Region: us-east-1
           ActionTypeId:

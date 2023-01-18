@@ -1,0 +1,13 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - ls
+      - pip install aws-ssm-copy
+################SSM copy job
+      - aws-ssm-copy 
+        --overwrite
+        --source-region us-east-1 
+        --region eu-west-1 
+        AEMLambdaedgeSSM
