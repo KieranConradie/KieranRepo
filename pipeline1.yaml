@@ -52,7 +52,7 @@ Resources:
             Type: S3
         - Region: us-east-1
           ArtifactStore:
-            Location: !Ref PipelineArtifactsBucket
+            Location: arn:aws:s3:::cf-templates-15zl1hex6yzw9-us-east-1
             Type: S3
       Stages:
       - Name: Source
