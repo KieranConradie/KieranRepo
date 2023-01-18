@@ -17,10 +17,10 @@ Parameters:
   KieranCDNaliases:
     Type: String
     Default: kieran.devops-dev.alit.co.za
-  # KieranWebACLID:
-  #   Type: String
-  #   Default: !ImportValue webacl 
-  #   # b29458c7-7fba-4f68-9fb8-e56f37c97168
+  KieranWebACLID:
+    Type: String
+    Default: b29458c7-7fba-4f68-9fb8-e56f37c97168
+    
 
     
     # lets try it one more time
@@ -74,12 +74,12 @@ Resources:
       Tags:
         - Key: OWNER
           Value: Kieran@al.co.za
-
+# arn:aws:wafv2:eu-west-1:311668141734:regional/webacl/KieranWAF/6fce13f0-62a6-46dd-9b83-478df7499515
   KieranCDN:
     Type: 'AWS::CloudFront::Distribution'
     Properties:
       DistributionConfig:
-        WebACLId: arn:aws:wafv2:eu-west-1:311668141734:regional/webacl/KieranWAF/6fce13f0-62a6-46dd-9b83-478df7499515
+        WebACLId: !Ref KieranWebACLID
         Comment: 'Kieran Cloudfront Distribution'
         Origins:
           - DomainName: !GetAtt

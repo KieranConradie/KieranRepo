@@ -89,7 +89,7 @@ Resources:
             ManagedRuleGroupStatement:
               VendorName: AWS
               Name: AWSManagedRulesSQLiRuleSet
-      Scope: REGIONAL
+      Scope: REGIONAL 
       VisibilityConfig:
         CloudWatchMetricsEnabled: true
         MetricName: KieranWAF
