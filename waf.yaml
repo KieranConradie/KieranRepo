@@ -7,9 +7,7 @@ Resources:
       Name: KieranWAFSSMPARAM
       Type: String
       Value: !GetAtt KieranWAF.Arn
-      Tags:
-      - Key: OWNER
-        Value: Kieran@al.co.za
+      
 
   KieranWAF:
     Type: 'AWS::WAFv2::WebACL'
