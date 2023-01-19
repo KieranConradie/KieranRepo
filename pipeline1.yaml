@@ -96,24 +96,10 @@ Resources:
             OutputArtifactFormat: "CODE_ZIP"
             # PollForSourceChanges: false
             FullRepositoryId: !Ref FullRepoId
-                   
-      - Name: CodeBuild
-        Actions:
-        - Name: CodeBuild
-          ActionTypeId:
-            Category: Build
-            Owner: AWS
-            Provider: CodeBuild
-            Version: '1'
-          InputArtifacts:
-            - Name: SourceArtifact
-          Configuration: 
-            - ProjectName: !Ref KieranCodeBuildProject
-          RunOrder: 2
 
-      - Name: ApplicationDeploy
+      - Name: Security
         Actions:
-        - Name: Security
+        - Name: SecurityGroups
           ActionTypeId:
             Category: Deploy
             Owner: AWS
@@ -143,14 +129,25 @@ Resources:
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             StackName: KieranDemoSecurityStack
             TemplatePath: "SourceArtifact::waf.yaml"
-          RunOrder: 1
-        - Name: DeployApproval
+          RunOrder: 1 
+
+      - Name: CodeBuild
+        Actions:
+        - Name: CodeBuild
           ActionTypeId:
-            Category: Approval
+            Category: Build
             Owner: AWS
-            Version: "1"
-            Provider: Manual
-          RunOrder: 3
+            Provider: CodeBuild
+            Version: '1'
+          InputArtifacts:
+            - Name: SourceArtifact
+          Configuration: 
+            - ProjectName: !Ref KieranCodeBuildProject
+          RunOrder: 2
+
+
+      - Name: ApplicationDeploy
+        Actions: 
         - Name: Webflowstack
           ActionTypeId:
             Category: Deploy
@@ -165,7 +162,7 @@ Resources:
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             StackName: !Ref ApplicationStackName
             TemplatePath: "SourceArtifact::webflow.yaml"
-          RunOrder: 4
+          RunOrder: 3
       Tags:
         - Key: OWNER
           Value: Kieran@al.co.za
