@@ -24,6 +24,7 @@ Parameters:
         # arn:aws:wafv2:eu-west-1:311668141734:regional/webacl/KieranWAF/6fce13f0-62a6-46dd-9b83-478df7499515
     
     # lets try it one more time
+    arn:aws:sts::311668141734:assumed-role/Kierancodebuildservicerole/AWSCodeBuild-161d550a-36bb-4903-94d5-09302d955db3
 
 Resources: 
 
@@ -79,7 +80,7 @@ Resources:
     Type: 'AWS::CloudFront::Distribution'
     Properties:
       DistributionConfig:
-        WebACLId: !ImportValue webacl
+        WebACLId: '{{resolve:ssm:KieranWAFSSMPARAM:2}}'
         Comment: 'Kieran Cloudfront Distribution'
         Origins:
           - DomainName: !GetAtt
