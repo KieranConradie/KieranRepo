@@ -48,15 +48,13 @@ Resources:
     Type: 'AWS::CodeBuild::Project'
     Properties:
       Name: KieranSSMBuild
-      ServiceRole: 
-        !Join ['',['arn:aws:iam::',!Ref "AWS::AccountId", ':role/deployer-role']]
+      ServiceRole: arn:aws:iam::311668141734:role/service-role/Kierancodebuildservicerole
       Tags:
         - Key: OWNER
           Value: Kieran@al.co.za
       Artifacts:
         Packaging: NONE
         Type: CODEPIPELINE
-        Name: // add
       TimeoutInMinutes: 60
       Environment:
         ComputeType: BUILD_GENERAL1_SMALL
@@ -109,11 +107,9 @@ Resources:
             Version: '1'
           InputArtifacts:
             - Name: SourceArtifact
-          OutputArtifacts:
-            - Name: //add
           Configuration: 
             - ProjectName: !Ref KieranCodeBuildProject
-          RunOrder: 1
+          RunOrder: 2
 
       - Name: ApplicationDeploy
         Actions:
@@ -131,7 +127,7 @@ Resources:
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             StackName: KieranDemoSecurityStack
             TemplatePath: "SourceArtifact::Security.yaml"
-          RunOrder: 2
+          RunOrder: 1
         - Name: WAF
           Region: us-east-1
           ActionTypeId:
@@ -147,7 +143,7 @@ Resources:
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             StackName: KieranDemoSecurityStack
             TemplatePath: "SourceArtifact::waf.yaml"
-          RunOrder: 2
+          RunOrder: 1
         - Name: DeployApproval
           ActionTypeId:
             Category: Approval
