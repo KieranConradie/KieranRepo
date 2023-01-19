@@ -79,15 +79,6 @@ Resources:
         MetricName: KieranWAF
         SampledRequestsEnabled: true
       
-WAFAclArn:
-  Type: AWS::SSM::Parameter
-  Properties:
-    Name: KieranWAFSSMPARAM
-    Type: String
-    Value: !GetAtt KieranWAF.Arn
-    Tags:
-    - Key: OWNER
-      Value: Kieran@al.co.za
 
 Outputs:
   WAF:
