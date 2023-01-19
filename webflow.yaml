@@ -243,11 +243,11 @@ Resources:
       Roles:
         - !Ref KieranRole
 
-  MyWAFWebACLAssociation:
-    Type: 'AWS::WAFv2::WebACLAssociation'
-    Properties:
-      ResourceArn: !Ref KieranCDN
-      WebACLArn: arn:aws:wafv2:eu-west-1:311668141734:regional/webacl/KieranWAF/6fce13f0-62a6-46dd-9b83-478df7499515
+  # MyWAFWebACLAssociation:
+  #   Type: 'AWS::WAFv2::WebACLAssociation'
+  #   Properties:
+  #     ResourceArn: !Ref KieranCDN
+  #     WebACLArn: arn:aws:wafv2:eu-west-1:311668141734:regional/webacl/KieranWAF/6fce13f0-62a6-46dd-9b83-478df7499515
   
 
   
