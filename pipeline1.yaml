@@ -44,6 +44,24 @@ Resources:
       VersioningConfiguration:
         Status: Enabled
 
+  KieranARTS3Policy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument: 
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal: "*"
+          Resource: !Join
+            - ''
+            - - 'arn:aws:s3:::'
+              - !Ref PipelineArtifactsBucket
+              - /*
+          Action:
+          - S3:getObject
+          - S3:ListBucket
+      Bucket: !Ref PipelineArtifactsBucket
+
   KieranCodeBuildProject:
     Type: 'AWS::CodeBuild::Project'
     Properties:
@@ -127,7 +145,7 @@ Resources:
             ActionMode: CREATE_UPDATE
             Capabilities: CAPABILITY_NAMED_IAM
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
-            StackName: KieranDemoSecurityStack
+            StackName: KieranDemoWafStack
             TemplatePath: "SourceArtifact::waf.yaml"
           RunOrder: 1 
 
