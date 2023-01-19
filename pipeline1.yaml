@@ -142,7 +142,8 @@ Resources:
           InputArtifacts:
             - Name: SourceArtifact
           Configuration: 
-            - ProjectName: !Ref KieranCodeBuildProject
+            ProjectName: !Ref KieranCodeBuildProject
+            PrimarySource: SourceArtifact
           RunOrder: 2
 
 
