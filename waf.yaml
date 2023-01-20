@@ -78,12 +78,3 @@ Resources:
         SampledRequestsEnabled: true
       
 
-# Outputs:
-#   WAF:
-#     Description: Web ACL ID
-#     Value: !GetAtt 
-#       - KieranWAF
-#       - Id
-#     Export:
-#       Name:
-#         webacl

@@ -81,7 +81,7 @@ Resources:
       Stages:
       - Name: Source
         Actions:
-        - Name: Source
+        - Name: GIT
           InputArtifacts: []
           ActionTypeId:
             Category: Source
@@ -131,9 +131,9 @@ Resources:
             TemplatePath: "SourceArtifact::waf.yaml"
           RunOrder: 1 
 
-      - Name: CodeBuild
+      - Name: Build
         Actions:
-        - Name: CodeBuild
+        - Name: SSM Parameter Overwite
           ActionTypeId:
             Category: Build
             Owner: AWS
