@@ -73,7 +73,7 @@ Resources:
   KieranWebappDeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
-      ApplicationName: KieranWebApp
+      ApplicationName: !Ref KieranWebApp
       ServiceRoleArn: arn:aws:iam::311668141734:role/KieranCDserviceRole
       DeploymentConfigName: CodeDeployDefault.OneAtATime
       DeploymentGroupName: KieranCodeDeployGroup
@@ -194,8 +194,6 @@ Resources:
             Version: '1'
           InputArtifacts:
             - Name: SourceArtifact
-            - Name: website
-              FileName: DemoWebsite.html
           Configuration:
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             ApplicationName: !Ref KieranWebApp
