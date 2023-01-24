@@ -79,8 +79,8 @@ Resources:
       DeploymentGroupName: KieranCodeDeployGroup
       Ec2TagFilters:
       - Key: CodeDeploy
-      - Type: KEY_AND_VALUE
-      - Value: KieranCD
+        Value: KieranCD
+        Type: KEY_AND_VALUE
 
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
