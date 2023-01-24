@@ -43,6 +43,44 @@ Resources:
     Properties:
       VersioningConfiguration:
         Status: Enabled
+  
+  KieranCodeBuildProject:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Name: KieranSSMBuild
+      ServiceRole: arn:aws:iam::311668141734:role/service-role/Kierancodebuildservicerole
+      Tags:
+        - Key: OWNER
+          Value: Kieran@al.co.za
+      Artifacts:
+        Packaging: NONE
+        Type: CODEPIPELINE
+      TimeoutInMinutes: 60
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: 'aws/codebuild/standard:4.0'
+        Type: LINUX_CONTAINER
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: buildspec.yaml
+      
+  KieranWebApp:
+    Type: AWS::CodeDeploy::Application
+    Properties:
+      ApplicationName: KieranCodeDeployApp
+      ComputePlatform: Server
+
+  KieranWebappDeploymentGroup:
+    Type: AWS::CodeDeploy::DeploymentGroup
+    Properties:
+      ApplicationName: !Ref KieranWebApp
+      ServiceRoleArn: arn:aws:iam::311668141734:role/KieranCDserviceRole
+      DeploymentConfigName: CodeDeployDefault.OneAtATime
+      DeploymentGroupName: KieranCodeDeployGroup
+      Ec2TagFilters:
+      - Key: CodeDeploy
+      - Type: KEY_AND_VALUE
+      - Value: KieranCD
 
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
@@ -122,18 +160,18 @@ Resources:
           InputArtifacts:
             - Name: SourceArtifact
           Configuration: 
-            ProjectName: KieranSSMBuild
+            ProjectName: !Ref KieranCodeBuildProject
             PrimarySource: SourceArtifact
           RunOrder: 2
 
 
-      - Name: Compute
+      - Name: ApplicationDeploy
         Actions: 
         - Name: Webflowstack
           ActionTypeId:
             Category: Deploy
             Owner: AWS
-            Provider: Cloudformation
+            Provider: CloudFormation
             Version: '1'
           InputArtifacts:
             - Name: SourceArtifact
@@ -144,7 +182,7 @@ Resources:
             StackName: !Ref ApplicationStackName
             TemplatePath: "SourceArtifact::webflow.yaml"
           RunOrder: 3
-
+     
       - Name: Deploy
         Actions: 
         - Name: Webapp
@@ -156,9 +194,9 @@ Resources:
           InputArtifacts:
             - Name: SourceArtifact
           Configuration:
-            RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
-            ApplicationName: KieranCodeDeployApp
-            DeploymentGroupName: KieranCodeDeployGroup
+            # RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
+            ApplicationName: !Ref KieranWebApp
+            DeploymentGroupName: !Ref KieranWebappDeploymentGroup
           RunOrder: 4
       Tags:
         - Key: OWNER

@@ -245,45 +245,11 @@ Resources:
       Roles:
         - !Ref KieranRole
 
-  KieranWebApp:
-    Type: AWS::CodeDeploy::Application
-    Properties:
-      ApplicationName: KieranCodeDeployApp
-      ComputePlatform: Server
-
-  KieranWebappDeploymentGroup:
-    Type: AWS::CodeDeploy::DeploymentGroup
-    Properties:
-      ApplicationName: !Ref KieranWebApp
-      ServiceRoleArn: arn:aws:iam::311668141734:role/KieranCDserviceRole
-      DeploymentConfigName: CodeDeployDefault.OneAtATime
-      DeploymentGroupName: KieranCodeDeployGroup
-      Ec2TagFilters:
-      - Key: CodeDeploy
-      - Type: KEY_AND_VALUE
-      - Value: KieranCD
+  
 
  
 
-  KieranCodeBuildProject:
-    Type: 'AWS::CodeBuild::Project'
-    Properties:
-      Name: KieranSSMBuild
-      ServiceRole: arn:aws:iam::311668141734:role/service-role/Kierancodebuildservicerole
-      Tags:
-        - Key: OWNER
-          Value: Kieran@al.co.za
-      Artifacts:
-        Packaging: NONE
-        Type: CODEPIPELINE
-      TimeoutInMinutes: 60
-      Environment:
-        ComputeType: BUILD_GENERAL1_SMALL
-        Image: 'aws/codebuild/standard:4.0'
-        Type: LINUX_CONTAINER
-      Source:
-        Type: CODEPIPELINE
-        BuildSpec: buildspec.yaml
+  
 
   # MyWAFWebACLAssociation:
   #   Type: 'AWS::WAFv2::WebACLAssociation'
