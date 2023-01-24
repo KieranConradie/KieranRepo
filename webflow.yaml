@@ -80,7 +80,7 @@ Resources:
     Type: 'AWS::CloudFront::Distribution'
     Properties:
       DistributionConfig:
-        WebACLId: '{{resolve:ssm:KieranWAFSSMPARAM:2}}'
+        WebACLId: '{{resolve:ssm:KieranWAFSSMPARAM:7}}'
         Comment: 'Kieran Cloudfront Distribution'
         Origins:
           - DomainName: !GetAtt
