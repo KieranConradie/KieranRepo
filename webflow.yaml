@@ -203,6 +203,8 @@ Resources:
             Tags:
               - Key: OWNER
                 Value: Kieran@al.co.za
+              - Key: CodeDeploy
+                Value: KieranCD
 
   KieranRole:
     Type: 'AWS::IAM::Role'

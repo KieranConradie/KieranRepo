@@ -77,11 +77,10 @@ Resources:
       ServiceRoleArn: arn:aws:iam::311668141734:role/KieranCDserviceRole
       DeploymentConfigName: CodeDeployDefault.OneAtATime
       DeploymentGroupName: KieranCodeDeployGroup
-      AutoRollbackConfiguration:
-          Enabled: true
-          Events:
-            - DEPLOYMENT_FAILURE
-            - DEPLOYMENT_STOP_ON_REQUEST
+      Ec2TagFilters:
+        - Key: CodeDeploy
+        - Value: KieranCD
+        - Type: KEY_AND_VALUE 
 
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
@@ -190,7 +189,7 @@ Resources:
           ActionTypeId:
             Category: Deploy
             Owner: AWS
-            Provider: CloudFormation
+            Provider: CodeDeploy
             Version: '1'
           InputArtifacts:
             - Name: SourceArtifact
@@ -198,8 +197,6 @@ Resources:
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             ApplicationName: !Ref KieranWebApp
             DeploymentGroupName: !Ref KieranWebappDeploymentGroup
-            AppSpecContent:
-              FileName: appspec.yaml
           RunOrder: 4
       Tags:
         - Key: OWNER
