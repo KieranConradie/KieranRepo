@@ -192,6 +192,10 @@ Resources:
         UserData:
           'Fn::Base64': |
             #!/bin/bash -xe
+            cd /tmp
+            sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+            sudo systemctl enable amazon-ssm-agent
+            sudo systemctl start amazon-ssm-agent
             sudo yum update -y
             sudo yum install ruby wget -y
             sudo wget -P /home/ec2-user/ https://aws-codedeploy-eu-west-1.s3.eu-west-1.amazonaws.com/latest/install
