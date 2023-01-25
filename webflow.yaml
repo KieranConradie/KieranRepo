@@ -17,6 +17,9 @@ Parameters:
   KieranCDNaliases:
     Type: String
     Default: kieran.devops-dev.alit.co.za
+  WebACLId:
+    Type: String
+    Description: The WebACLId to be used in the template
   # KieranWebACLID:
   #   Type: String
   #   Default: !ImportValue webacl 
@@ -80,7 +83,7 @@ Resources:
     Type: 'AWS::CloudFront::Distribution'
     Properties:
       DistributionConfig:
-        WebACLId: '{{resolve:ssm:KieranWAFSSMPARAM:7}}'
+        WebACLId: !Sub '{{resolve:ssm:KieranWAFSSMPARAM:${WebACLId}}}'
         Comment: 'Kieran Cloudfront Distribution'
         Origins:
           - DomainName: !GetAtt
