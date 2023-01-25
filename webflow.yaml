@@ -169,13 +169,15 @@ Resources:
           - S3:getObject
       Bucket: !Ref KieranS3
 
+
+
   KieranLaunchTemp:
     Type: 'AWS::EC2::LaunchTemplate'
     Properties:
       LaunchTemplateName: KieranLC
       LaunchTemplateData:
         InstanceType: t2.micro
-        ImageId: ami-0bb169f74ff4d74f2
+        ImageId: ami-0fe0b2cf0e1f25c8a
         KeyName: KieranKP 
         IamInstanceProfile:
           Arn:
