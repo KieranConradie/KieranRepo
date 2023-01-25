@@ -192,8 +192,12 @@ Resources:
         UserData:
           'Fn::Base64': |
             #!/bin/bash -xe
-            sudo sleep 30
-            sudo systemctl start nginx 
+                sudo yum update -y
+                sudo yum install ruby wget -y
+                sudo wget -P /home/ec2-user/ https://aws-codedeploy-eu-west-1.s3.eu-west-1.amazonaws.com/latest/install
+                sudo chmod +x /home/ec2-user/install
+                sudo /home/ec2-user/./install auto
+                sudo service codedeploy-agent start
         TagSpecifications:
           - ResourceType: volume
             Tags:
