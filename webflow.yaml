@@ -194,6 +194,9 @@ Resources:
             #!/bin/bash -xe
             sudo sleep 30
             sudo systemctl start nginx 
+            sudo systemctl enable amazon-ssm-agent
+            sudo systemctl start amazon-ssm-agent
+            sudo systemctl status amazon-ssm-agent
         TagSpecifications:
           - ResourceType: volume
             Tags:
