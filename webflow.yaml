@@ -61,7 +61,7 @@ Resources:
   ALBTargetGroup:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
-      HealthCheckIntervalSeconds: 30
+      HealthCheckIntervalSeconds: 50
       HealthCheckEnabled: true
       Matcher:
         HttpCode: 200-399
