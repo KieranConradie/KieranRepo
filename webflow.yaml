@@ -63,6 +63,7 @@ Resources:
     Properties:
       HealthCheckIntervalSeconds: 30
       HealthCheckEnabled: true
+      HealthCheckTimeoutSeconds: 10
       Matcher:
         HttpCode: 200-399
       Name: KieranTG
