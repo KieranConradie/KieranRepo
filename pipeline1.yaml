@@ -36,13 +36,18 @@ Parameters:
   NorthViginiaBucket:
     Type: String
     Default: angeo-nv
+  
+  PipelineArtifactsBucket:
+    Type: String
+    Default: kieranartifactsbucket
+
 
 Resources:
-  PipelineArtifactsBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      VersioningConfiguration:
-        Status: Enabled
+  # PipelineArtifactsBucket:
+  #   Type: AWS::S3::Bucket
+  #   Properties:
+  #     VersioningConfiguration:
+  #       Status: Enabled
   
   KieranCodeBuildProject:
     Type: 'AWS::CodeBuild::Project'

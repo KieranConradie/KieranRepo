@@ -62,7 +62,8 @@ Resources:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
       HealthCheckIntervalSeconds: 30
-      HealthCheckEnabled: true
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 10
       Matcher:
         HttpCode: 200-399
       Name: KieranTG
@@ -80,7 +81,7 @@ Resources:
     Type: 'AWS::CloudFront::Distribution'
     Properties:
       DistributionConfig:
-        WebACLId: '{{resolve:ssm:KieranWAFSSMPARAM:11}}'
+        WebACLId: '{{resolve:ssm:KieranWAFSSMPARAM:12}}'
         Comment: 'Kieran Cloudfront Distribution'
         Origins:
           - DomainName: !GetAtt
