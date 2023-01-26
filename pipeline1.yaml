@@ -37,7 +37,7 @@ Parameters:
     Type: String
     Default: angeo-nv
   
-  PipelineArtifactsBucket:
+  KieranArtifactsBucket:
     Type: String
     Default: kieranartifactsbucket
 
@@ -96,7 +96,7 @@ Resources:
       ArtifactStores:
         - Region: eu-west-1
           ArtifactStore:
-            Location: !Ref PipelineArtifactsBucket
+            Location: !Ref KieranArtifactsBucket
             Type: S3
         - Region: us-east-1
           ArtifactStore:
