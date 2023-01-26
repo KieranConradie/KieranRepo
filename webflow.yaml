@@ -194,11 +194,11 @@ Resources:
             DeviceIndex: 0
             DeleteOnTermination: true
             SubnetId: !Ref PubSubnets
-        # UserData:
-        #   'Fn::Base64': |
-        #     #!/bin/bash -xe
-        #     sudo sleep 30
-        #     sudo systemctl start nginx 
+        UserData:
+          'Fn::Base64': |
+            #!/bin/bash -xe
+            sudo sleep 30
+            sudo systemctl start nginx 
         TagSpecifications:
           - ResourceType: volume
             Tags:
