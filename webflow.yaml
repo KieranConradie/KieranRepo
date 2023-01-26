@@ -64,6 +64,8 @@ Resources:
       HealthCheckIntervalSeconds: 30
       HealthCheckEnabled: true
       HealthCheckTimeoutSeconds: 10
+      HealthyThresholdCount: 4
+      UnhealthyThresholdCount: 3
       Matcher:
         HttpCode: 200-399
       Name: KieranTG
