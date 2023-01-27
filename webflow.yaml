@@ -245,6 +245,7 @@ Resources:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforAWSCodeDeploy
         - arn:aws:iam::aws:policy/AmazonS3FullAccess
         - arn:aws:iam::aws:policy/AWSCodeDeployFullAccess
+        - arn:aws:iam::aws:policy/IAMUserSSHKeys
       Tags:
         - Key: OWNER
           Value: Kieran@al.co.za
