@@ -197,13 +197,11 @@ Resources:
         UserData:
           'Fn::Base64': |
             #!/bin/bash
+            sudo sleep 30
+            sudo systemctl start nginx
             sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
             sudo yum install -y amazon-ssm-agent
             sudo start amazon-ssm-agent
-            yum install -y aws-cli
-            cd /home/ec2-user/
-            aws s3 cp 's3://aws-codedeploy-us-east-1/latest/codedeploy-agent.noarch.rpm' . --region us-east-1
-            yum -y install codedeploy-agent.noarch.rpm 
         TagSpecifications:
           - ResourceType: volume
             Tags:
