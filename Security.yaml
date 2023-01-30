@@ -7,23 +7,14 @@ Resources:
       GroupDescription: Allow SSH & http access
       VpcId: vpc-0441f0ed03f0020af
       SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: 443
-        ToPort: 443
-        CidrIp: 0.0.0.0/0
-      SecurityGroupEgress:
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: 0.0.0.0/0
+        - CidrIp: 0.0.0.0/0
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIp: 102.65.58.60/32
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
 
   KieranALBSecGrp:
     Type: 'AWS::EC2::SecurityGroup'
@@ -34,10 +25,6 @@ Resources:
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: 22
-          ToPort: 22
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           FromPort: 443

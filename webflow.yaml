@@ -180,7 +180,7 @@ Resources:
       LaunchTemplateName: KieranLC
       LaunchTemplateData:
         InstanceType: t2.micro
-        ImageId: ami-0bb169f74ff4d74f2
+        ImageId: ami-0ee415e1b8b71305f
         KeyName: KieranKP 
         IamInstanceProfile:
           Arn:
@@ -197,9 +197,15 @@ Resources:
         UserData: 
           'Fn::Base64': |
             #!/bin/bash -xe
-            sudo sleep 10
+            sudo yum update -y
+            sudo amazon-linux-extras install nginx1 -y
+            sleep 30
             sudo systemctl start nginx
-            sudo systemctl start amazon-ssm-agent
+            sudo yum install ruby wget -y
+            sudo wget -P /home/ec2-user/ https://aws-codedeploy-eu-west-1.s3.eu-west-1.amazonaws.com/latest/install
+            sudo chmod +x /home/ec2-user/install
+            sudo /home/ec2-user/./install auto
+            sudo service codedeploy-agent start
         TagSpecifications:
           - ResourceType: volume
             Tags:
