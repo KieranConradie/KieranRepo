@@ -199,6 +199,8 @@ Resources:
             #!/bin/bash -xe
             sudo sleep 30
             sudo systemctl start nginx
+            yum install -y https://amazon-ssm-${AWS::Region}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm
+            systemctl start amazon-ssm-agent
         TagSpecifications:
           - ResourceType: volume
             Tags:
