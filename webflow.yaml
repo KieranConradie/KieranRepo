@@ -4,7 +4,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   PubSubnets:
     Type: String
-    Default: subnet-082750b5ae21a79d0
+    Default: subnet-099da342df0deb860
   KieranCDNcert:
     Type: String
     Default: arn:aws:acm:us-east-1:311668141734:certificate/318b8b77-afd0-4a57-b4e5-b9eae509d4b2
@@ -36,8 +36,8 @@ Resources:
       SecurityGroups: 
       - !ImportValue albsec
       Subnets: 
-      - subnet-082750b5ae21a79d0
-      - subnet-011c03bcc5bc7c71d
+      - subnet-099da342df0deb860
+      - subnet-0d5f4220911692948
       Tags: 
         - Key: OWNER
           Value: Kieran@al.co.za
