@@ -194,25 +194,11 @@ Resources:
             DeviceIndex: 0
             DeleteOnTermination: true
             SubnetId: !Ref PubSubnets
-        UserData: !Base64
-          'Fn::Join':
-            - ''
-            - - |
-                #!/bin/bash -xe
-              - |
-                sudo yum update -y
-              - |
-                sudo yum install ruby wget -y
-              - |
-                sudo wget -P /home/ec2-user/ https://aws-codedeploy-eu-west-1.s3.eu-west-1.amazonaws.com/latest/install
-              - |
-                sudo chmod +x /home/ec2-user/install
-              - |
-                sudo /home/ec2-user/./install auto
-              - |
-                sudo service codedeploy-agent start
-              - |
-                sudo systemctl start nginx 
+        UserData: 
+          'Fn::Base64': |
+            #!/bin/bash -xe
+            sudo sleep 30
+            sudo systemctl start nginx
         TagSpecifications:
           - ResourceType: volume
             Tags:
