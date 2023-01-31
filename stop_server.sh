@@ -1,3 +1,3 @@
 #!/bin/bash
-sudo service my-web-service stop
+sudo service nginx stop
 
