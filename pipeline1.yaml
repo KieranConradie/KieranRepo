@@ -82,7 +82,6 @@ Resources:
       ServiceRoleArn: arn:aws:iam::311668141734:role/KieranCDserviceRole
       DeploymentConfigName: CodeDeployDefault.OneAtATime
       DeploymentGroupName: KieranCodeDeployGroup
-      IgnoreApplicationStopFailures: true 
       Ec2TagFilters:
       - Key: CodeDeploy
         Type: KEY_AND_VALUE
