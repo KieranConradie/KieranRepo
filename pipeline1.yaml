@@ -165,6 +165,8 @@ Resources:
             Version: '1'
           InputArtifacts:
             - Name: SourceArtifact
+          OutputArtifacts:
+            - Name: KieranCDstore
           Configuration: 
             ProjectName: !Ref KieranCodeBuildProject
             PrimarySource: SourceArtifact
@@ -180,7 +182,7 @@ Resources:
             Provider: CloudFormation
             Version: '1'
           InputArtifacts:
-            - Name: SourceArtifact
+            - Name: KieranCDstore
           Configuration:
             ActionMode: CREATE_UPDATE
             Capabilities: CAPABILITY_NAMED_IAM

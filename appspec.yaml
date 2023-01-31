@@ -1,8 +1,8 @@
 version: 0.0
 os: linux
 files:
-  - source: DemoWebsite.html
-    destination: /etc/nginx/sites-enabled/
+  - source: /KieranCDstore
+    destination: /home/ec2-user
 hooks:
   ApplicationStop:
     - location: stop_server.sh

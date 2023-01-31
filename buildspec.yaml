@@ -1,8 +1,6 @@
 version: 0.2
 
-artifacts:
-  files:
-    - appspec.yml
+
 phases:
   install:
     commands:
@@ -14,3 +12,13 @@ phases:
         --source-region us-east-1 
         --region eu-west-1 
         KieranWAFSSMPARAM
+  build:
+    commands:
+      - mkdir KieranCDstore
+      - cp Git/KieranRepo/appspec.yml KieranCDstore
+      - cp Git/KieranRepo/stop_server.sh KieranCDstore
+      - cp Git/KieranRepo/after_install.sh KieranCDstore
+  artifacts:
+    base-directory: '.'
+    files:
+      - "**/*"
