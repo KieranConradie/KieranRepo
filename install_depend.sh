@@ -1,4 +1,5 @@
 #!/bin/bash
-yum install httpd -y
+sudo apt-get update
+sudo apt-get install -y unzip
 
 

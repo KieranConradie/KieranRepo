@@ -1,3 +1,3 @@
 #!/bin/bash
-
-    service httpd enable 
+sudo service my-web-service start
+sudo systemctl enable my-web-service
