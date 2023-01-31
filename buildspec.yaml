@@ -20,6 +20,6 @@ phases:
       - cp stop_server.sh KieranCDstore/stop_server.sh
       - cp after_install.sh KieranCDstore/after_install.sh
 artifacts:
-  base-directory: '.'
+  base-directory: KieranCDstore
   files:
     - "**/*"
