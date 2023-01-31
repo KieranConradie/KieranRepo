@@ -16,7 +16,7 @@ phases:
     commands:
       - mkdir KieranCDstore
       - ls
-      - cp appspec.yaml KieranCDstore/appspec.yaml
+      - cp appspec.yml KieranCDstore/appspec.yml
       - cp stop_server.sh KieranCDstore/stop_server.sh
       - cp after_install.sh KieranCDstore/after_install.sh
 artifacts:
