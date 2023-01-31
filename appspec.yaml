@@ -4,7 +4,7 @@ files:
   - source: /
     destination: /home/ec2-user
 hooks:
-  ApplicationStop:
+  BeforeInstall:
     - location: stop_server.sh
       timeout: 30
       runas: root
