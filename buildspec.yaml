@@ -15,9 +15,9 @@ phases:
   build:
     commands:
       - mkdir KieranCDstore
-      - cp Git/KieranRepo/appspec.yml KieranCDstore
-      - cp Git/KieranRepo/stop_server.sh KieranCDstore
-      - cp Git/KieranRepo/after_install.sh KieranCDstore
+      - cp appspec.yml KieranCDstore
+      - cp stop_server.sh KieranCDstore
+      - cp after_install.sh KieranCDstore
 artifacts:
   base-directory: '.'
   files:
