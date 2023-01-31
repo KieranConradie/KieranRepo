@@ -19,6 +19,6 @@ phases:
       - cp Git/KieranRepo/stop_server.sh KieranCDstore
       - cp Git/KieranRepo/after_install.sh KieranCDstore
   artifacts:
-    base-directory: '.'
+    base-directory: KieranCDstore
     files:
       - "**/*"
