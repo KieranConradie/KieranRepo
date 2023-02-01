@@ -170,7 +170,6 @@ Resources:
           Configuration: 
             ProjectName: !Ref KieranCodeBuildProject
             PrimarySource: SourceArtifact
-            RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
           RunOrder: 2
 
 
