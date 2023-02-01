@@ -38,8 +38,13 @@ Parameters:
     Default: angeo-nv
   
   KieranArtifactsBucket:
-    Type: String
-    Default: kieranartifactsbucket
+    KieranS3:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: Kieranartifactbucket
+      Tags:
+        - Key: OWNER
+          Value: Kieran@al.co.za
 
 
 Resources:
@@ -156,8 +161,8 @@ Resources:
             TemplatePath: "SourceArtifact::waf.yaml"
           RunOrder: 1 
       
-      - Name: DEV 
-          Actions:
+      - Name: Upload 
+        Actions:
             - Name: UploadToS3-CB
               InputArtifacts:
                 - Name: SourceArtifact
@@ -169,7 +174,7 @@ Resources:
               Configuration:
                 BucketName: !Ref KieranArtifactsBucket
                 Extract: true
-              RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
+              RoleArn: arn:aws:iam::311668141734:role/service-role/AWSCodePipelineServiceRole-eu-west-1-Kieran_pipe1
               RunOrder: 2
 
       - Name: CodeBuild
