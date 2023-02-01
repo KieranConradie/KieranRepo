@@ -38,13 +38,8 @@ Parameters:
     Default: angeo-nv
   
   KieranArtifactsBucket:
-    KieranS3:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: Kieranartifactbucket
-      Tags:
-        - Key: OWNER
-          Value: Kieran@al.co.za
+    Type: String
+    Default: kieranartifactsbucket
 
 
 Resources:
