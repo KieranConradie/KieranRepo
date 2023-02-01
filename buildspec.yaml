@@ -19,7 +19,7 @@ phases:
       - cp appspec.yml KieranCDstore/appspec.yml
       - cp stop_server.sh KieranCDstore/stop_server.sh
       - cp after_install.sh KieranCDstore/after_install.sh
-      - cp DemoWebsite.html KieranCDstore/DemoWebsite.html
+      - cp index.html KieranCDstore/index.html
       
 
 artifacts:
