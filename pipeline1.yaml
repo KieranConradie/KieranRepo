@@ -197,10 +197,10 @@ Resources:
           ActionTypeId:
             Category: Deploy
             Owner: AWS
-            Provider: KieranCDstore
+            Provider: CodeDeploy
             Version: '1'
           InputArtifacts:
-            - Name: SourceArtifact
+            - Name: KieranCDstore
           Configuration:
             # RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             ApplicationName: !Ref KieranWebApp
