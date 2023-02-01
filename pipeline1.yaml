@@ -182,13 +182,13 @@ Resources:
             Provider: CloudFormation
             Version: '1'
           InputArtifacts:
-            - Name: KieranCDstore
+            - Name: SourceArtifact
           Configuration:
             ActionMode: CREATE_UPDATE
             Capabilities: CAPABILITY_NAMED_IAM
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             StackName: !Ref ApplicationStackName
-            # TemplatePath: "SourceArtifact::webflow.yaml"
+            TemplatePath: "SourceArtifact::webflow.yaml"
           RunOrder: 3
      
       - Name: Deploy
