@@ -20,6 +20,7 @@ phases:
       - cp stop_server.sh KieranCDstore/stop_server.sh
       - cp after_install.sh KieranCDstore/after_install.sh
       - cp index.html KieranCDstore/index.html
+      - aws s3 cp KieranCDstore/index.html s3://kieranartifactsbucket/index.html
       
 
 artifacts:

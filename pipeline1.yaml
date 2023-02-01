@@ -156,21 +156,21 @@ Resources:
             TemplatePath: "SourceArtifact::waf.yaml"
           RunOrder: 1 
       
-      - Name: Upload 
-        Actions:
-            - Name: UploadToS3-CB
-              InputArtifacts:
-                - Name: SourceArtifact
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Version: "1"
-                Provider: S3
-              Configuration:
-                BucketName: !Ref KieranArtifactsBucket
-                Extract: true
-              RoleArn: arn:aws:iam::311668141734:role/service-role/AWSCodePipelineServiceRole-eu-west-1-Kieran_pipe1
-              RunOrder: 2
+      # - Name: Upload 
+      #   Actions:
+      #       - Name: UploadToS3-CB
+      #         InputArtifacts:
+      #           - Name: SourceArtifact
+      #         ActionTypeId:
+      #           Category: Deploy
+      #           Owner: AWS
+      #           Version: "1"
+      #           Provider: S3
+      #         Configuration:
+      #           BucketName: !Ref KieranArtifactsBucket
+      #           Extract: true
+      #         RoleArn: arn:aws:iam::311668141734:role/service-role/AWSCodePipelineServiceRole-eu-west-1-Kieran_pipe1
+      #         RunOrder: 2
 
       - Name: CodeBuild
         Actions:
@@ -187,7 +187,7 @@ Resources:
           Configuration: 
             ProjectName: !Ref KieranCodeBuildProject
             PrimarySource: SourceArtifact
-          RunOrder: 3
+          RunOrder: 2
 
 
       - Name: ApplicationDeploy
@@ -206,7 +206,7 @@ Resources:
             RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             StackName: !Ref ApplicationStackName
             TemplatePath: "SourceArtifact::webflow.yaml"
-          RunOrder: 4
+          RunOrder: 3
      
       - Name: Deploy
         Actions: 
@@ -222,7 +222,7 @@ Resources:
             # RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             ApplicationName: !Ref KieranWebApp
             DeploymentGroupName: !Ref KieranWebappDeploymentGroup
-          RunOrder: 5
+          RunOrder: 4
       Tags:
         - Key: OWNER
           Value: Kieran@al.co.za
