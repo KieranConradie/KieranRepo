@@ -20,7 +20,7 @@ phases:
       - cp stop_server.sh KieranCDstore/stop_server.sh
       - cp after_install.sh KieranCDstore/after_install.sh
       - cp DemoWebsite.html KieranCDstore/DemoWebsite.html
-      # - cp webflow.yaml KieranCDstore/webflow.yaml
+      
 
 artifacts:
   base-directory: KieranCDstore
