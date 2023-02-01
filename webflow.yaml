@@ -172,6 +172,7 @@ Resources:
           - S3:getObject
       Bucket: !Ref KieranS3
 
+# 
 
 
   KieranLaunchTemp:
