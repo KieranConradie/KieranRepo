@@ -155,22 +155,6 @@ Resources:
             StackName: KieranDemoWafStack
             TemplatePath: "SourceArtifact::waf.yaml"
           RunOrder: 1 
-      
-      # - Name: Upload 
-      #   Actions:
-      #       - Name: UploadToS3-CB
-      #         InputArtifacts:
-      #           - Name: SourceArtifact
-      #         ActionTypeId:
-      #           Category: Deploy
-      #           Owner: AWS
-      #           Version: "1"
-      #           Provider: S3
-      #         Configuration:
-      #           BucketName: !Ref KieranArtifactsBucket
-      #           Extract: true
-      #         RoleArn: arn:aws:iam::311668141734:role/service-role/AWSCodePipelineServiceRole-eu-west-1-Kieran_pipe1
-      #         RunOrder: 2
 
       - Name: CodeBuild
         Actions:

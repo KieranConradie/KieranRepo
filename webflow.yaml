@@ -169,10 +169,10 @@ Resources:
               - !Ref KieranS3
               - /*
           Action:
-          - S3:getObject
+          - S3:*
       Bucket: !Ref KieranS3
 
-# 
+
 
 
   KieranLaunchTemp:
