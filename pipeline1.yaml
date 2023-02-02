@@ -190,9 +190,6 @@ Resources:
             PrimarySource: SourceArtifact
           RunOrder: 2
 
-
-      
-     
       - Name: Deploy
         Actions: 
         - Name: Webapp
