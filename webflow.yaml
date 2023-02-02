@@ -150,6 +150,7 @@ Resources:
   KieranS3:
     Type: AWS::S3::Bucket
     Properties:
+      AccessControl: Private
       BucketName: kierans3bucket
       Tags:
         - Key: OWNER
