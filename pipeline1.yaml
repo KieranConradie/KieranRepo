@@ -207,7 +207,7 @@ Resources:
             # RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             ApplicationName: !Ref KieranWebApp
             DeploymentGroupName: !Ref KieranWebappDeploymentGroup
-          RunOrder: 4
+          RunOrder: 3
       Tags:
         - Key: OWNER
           Value: Kieran@al.co.za
