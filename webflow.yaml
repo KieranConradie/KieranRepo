@@ -150,12 +150,12 @@ Resources:
   KieranS3:
     Type: AWS::S3::Bucket
     Properties:
-      AccessControl: Private
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: true
-        BlockPublicPolicy: true
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
+      # AccessControl: Private
+      # PublicAccessBlockConfiguration:
+      #   BlockPublicAcls: true
+      #   BlockPublicPolicy: true
+      #   IgnorePublicAcls: true
+      #   RestrictPublicBuckets: true
       BucketName: kierans3bucket
       Tags:
         - Key: OWNER
