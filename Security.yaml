@@ -22,7 +22,7 @@ Resources:
     Properties:
       PrefixListName: Kieranprefixlist
       AddressFamily: "IPv4"
-      MaxEntries: 50
+      MaxEntries: 100
       Entries:
         - Cidr: 13.113.203.0/24
         - Cidr: 52.199.127.192/26
