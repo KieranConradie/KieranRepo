@@ -24,10 +24,14 @@ Resources:
       AddressFamily: "IPv4"
       MaxEntries: 10
       Entries:
-        - Cidr: 13.34.66.0/27
+        - Cidr: 3.234.232.224/27 3.234.232.224/27
           Description: "us-east-1"
-        - Cidr: 99.87.32.0/22
+        - Cidr: 3.234.232.224/27
+          Description: "us-east-1.2"
+        - Cidr: 18.200.212.0/23 52.212.248.0/26
           Description: "eu-west-1"
+        - Cidr: 52.212.248.0/26
+          Description: "eu-west-1.2"
       Tags:
         - Key: OWNER
           Value: Kieran@al.co.za
