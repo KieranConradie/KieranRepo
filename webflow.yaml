@@ -175,7 +175,8 @@ Resources:
               - !Ref KieranS3
               - /*
           Action:
-          - S3:*
+          - s3:*
+          - s3:PutBucketPolicy
       Bucket: !Ref KieranS3
 
 
