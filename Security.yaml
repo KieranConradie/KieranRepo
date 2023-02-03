@@ -1,5 +1,8 @@
 AWSTemplateFormatVersion: 2010-09-09
 
+Mappings: 
+ PrefixListCloudFront: 'pl-1bbc5972'
+ 'eu-west-1':
 Resources:
   SSHP22:
     Type: AWS::EC2::SecurityGroup
@@ -29,7 +32,7 @@ Resources:
         - IpProtocol: tcp
           FromPort: 443
           ToPort: 443
-          CidrIp: 0.0.0.0/0
+          SourcePrefixListId: !FindInMap [PrefixListCloudFront]
 
 Outputs:
   EC2SecGroup:
