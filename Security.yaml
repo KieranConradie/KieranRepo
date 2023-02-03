@@ -21,9 +21,13 @@ Resources:
     Type: 'AWS::EC2::PrefixList'
     Properties:
       PrefixListName: Kieranprefixlist
-      MaxEntries: 100
-      PrefixListEntries:
+      AddressFamily: "IPv4"
+      MaxEntries: 10
+      Entries:
         - Cidr: '192.0.2.0/24'
+      Tags:
+        - Key: OWNER
+          Value: Kieran@al.co.za
 
   KieranALBSecGrp:
     Type: 'AWS::EC2::SecurityGroup'
