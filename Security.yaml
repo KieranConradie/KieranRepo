@@ -9,9 +9,9 @@ Resources:
       VpcId: vpc-0441f0ed03f0020af
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/0
-          FromPort: 80
+          FromPort: 443
           IpProtocol: tcp
-          ToPort: 80
+          ToPort: 443
         - CidrIp: 102.65.58.60/32
           FromPort: 22
           IpProtocol: tcp
