@@ -24,11 +24,11 @@ Resources:
       AddressFamily: "IPv4"
       MaxEntries: 10
       Entries:
-        - Cidr: 3.234.232.224/27 3.234.232.224/27
+        - Cidr: 3.231.2.0/25 
           Description: "us-east-1"
         - Cidr: 3.234.232.224/27
           Description: "us-east-1.2"
-        - Cidr: 18.200.212.0/23 52.212.248.0/26
+        - Cidr: 18.200.212.0/23 
           Description: "eu-west-1"
         - Cidr: 52.212.248.0/26
           Description: "eu-west-1.2"
