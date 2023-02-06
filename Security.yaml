@@ -13,9 +13,9 @@ Resources:
           IpProtocol: tcp
           ToPort: 443
         - CidrIp: 0.0.0.0/0
-          FromPort: 443
+          FromPort: 80
           IpProtocol: tcp
-          ToPort: 443
+          ToPort: 80
         - CidrIp: 102.65.58.60/32
           FromPort: 22
           IpProtocol: tcp
