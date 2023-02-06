@@ -58,24 +58,6 @@ Resources:
       Certificates:
         - CertificateArn: !Ref KieranALBcert
 
-  ALBListenerRule:
-    Type: AWS::ElasticLoadBalancingV2::ListenerRule
-    Properties:
-      ListenerArn: !Ref ALBListener
-      Priority: 1
-      Conditions:
-        - Field: headers
-          HostHeaderConfig:
-            Values:
-              - kieran.devops-dev.alit.co.za
-      Actions:
-        - Type: forward
-          Order: 1
-          TargetGroupArn: !Ref ALBTargetGroup
-      Tags: 
-        - Key: OWNER
-          Value: Kieran@al.co.za
-
   ALBTargetGroup:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
@@ -96,6 +78,21 @@ Resources:
       Tags:
         - Key: OWNER
           Value: Kieran@al.co.za
+
+  # ALBListenerRule:
+  #   Type: AWS::ElasticLoadBalancingV2::ListenerRule
+  #   Properties:
+  #     ListenerArn: !Ref ALBListener
+  #     Priority: 1
+  #     Conditions:
+  #       - Field: headers
+  #         HostHeaderConfig:
+  #           Values:
+  #             - kieran.devops-dev.alit.co.za
+  #     Actions:
+  #       - Type: forward
+  #         Order: 1
+  #         TargetGroupArn: !Ref ALBTargetGroup
 
   KieranCDN:
     Type: 'AWS::CloudFront::Distribution'
