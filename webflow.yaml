@@ -57,7 +57,7 @@ Resources:
       Protocol: HTTPS
       Certificates:
         - CertificateArn: !Ref KieranALBcert
-               
+
   ALBListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     Properties:
@@ -72,6 +72,9 @@ Resources:
         - Type: forward
           Order: 1
           TargetGroupArn: !Ref ALBTargetGroup
+      Tags: 
+        - Key: OWNER
+          Value: Kieran@al.co.za
 
   ALBTargetGroup:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
