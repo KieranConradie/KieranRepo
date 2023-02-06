@@ -56,7 +56,22 @@ Resources:
       Port: 443
       Protocol: HTTPS
       Certificates:
-        - CertificateArn: !Ref KieranALBcert       
+        - CertificateArn: !Ref KieranALBcert
+               
+  ALBListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref ALBListener
+      Priority: 1
+      Conditions:
+        - Field: headers
+          HostHeaderConfig:
+            Values:
+              - kieran.devops-dev.alit.co.za
+      Actions:
+        - Type: forward
+          Order: 1
+          TargetGroupArn: !Ref ALBTargetGroup
 
   ALBTargetGroup:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
@@ -69,11 +84,11 @@ Resources:
       Matcher:
         HttpCode: 200-399
       Name: KieranTG
-      Port: 443
-      Protocol: HTTPS
+      Port: 80
+      Protocol: HTTP
       Targets:
         - Id: !Ref KieranEc2
-          Port: 443
+          Port: 80
       VpcId: vpc-0441f0ed03f0020af
       Tags:
         - Key: OWNER
