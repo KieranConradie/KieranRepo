@@ -79,20 +79,20 @@ Resources:
         - Key: OWNER
           Value: Kieran@al.co.za
 
-  # ALBListenerRule:
-  #   Type: AWS::ElasticLoadBalancingV2::ListenerRule
-  #   Properties:
-  #     ListenerArn: !Ref ALBListener
-  #     Priority: 1
-  #     Conditions:
-  #       - Field: headers
-  #         HostHeaderConfig:
-  #           Values:
-  #             - kieran.devops-dev.alit.co.za
-  #     Actions:
-  #       - Type: forward
-  #         Order: 1
-  #         TargetGroupArn: !Ref ALBTargetGroup
+  ALBListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref ALBListener
+      Priority: 1
+      Conditions:
+        - Field: host-header
+          HostHeaderConfig:
+            Values:
+              - kieran.devops-dev.alit.co.za
+      Actions:
+        - Type: forward
+          Order: 1
+          TargetGroupArn: !Ref ALBTargetGroup
 
   KieranCDN:
     Type: 'AWS::CloudFront::Distribution'
