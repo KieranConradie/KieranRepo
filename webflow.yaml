@@ -69,11 +69,11 @@ Resources:
       Matcher:
         HttpCode: 200-399
       Name: KieranTG
-      Port: 80
-      Protocol: HTTP
+      Port: 443
+      Protocol: HTTPS
       Targets:
         - Id: !Ref KieranEc2
-          Port: 80
+          Port: 443
       VpcId: vpc-0441f0ed03f0020af
       Tags:
         - Key: OWNER
