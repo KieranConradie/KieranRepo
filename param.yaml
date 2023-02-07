@@ -1,0 +1,16 @@
+Parameters:
+  PubSubnets:
+    Type: String
+    Default: subnet-011c03bcc5bc7c71d
+  KieranCDNcert:
+    Type: String
+    Default: arn:aws:acm:us-east-1:311668141734:certificate/318b8b77-afd0-4a57-b4e5-b9eae509d4b2
+  KieranALBcert:
+    Type: String
+    Default: arn:aws:acm:eu-west-1:311668141734:certificate/9b7a4dfc-9a0a-43eb-8237-0b4390bff972
+  R53HZ:
+    Type: String
+    Default: devops-dev.alit.co.za.
+  KieranCDNaliases:
+    Type: String
+    Default: kieran.devops-dev.alit.co.za
