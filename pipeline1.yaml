@@ -184,7 +184,7 @@ Resources:
                   ],
                 ]
             StackName: !Ref ApplicationStackName
-            TemplateConfiguration: "SourceOutput::param.yaml"
+            TemplateConfiguration: "SourceOutput::param.json"
             TemplatePath: "SourceOutput::webflow.yaml"
           RunOrder: 2
           
