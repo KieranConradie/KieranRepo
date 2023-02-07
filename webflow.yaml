@@ -1,6 +1,26 @@
 
 AWSTemplateFormatVersion: 2010-09-09
- 
+Parameters:
+  PubSubnets: 
+    Description: Public subnets
+    Type: String
+
+  KieranCDNcert:
+    Description: CDN cert
+    Type: String
+
+  KieranALBcert: 
+    Description: ALB cert
+    Type: String
+
+  R53HZ: 
+    Description: devops HZ
+    Type: String
+
+  KieranCDNaliases: 
+    Description: Domain name
+    Type: String
+
 Resources: 
   AppLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
