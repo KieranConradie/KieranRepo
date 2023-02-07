@@ -1,5 +1,6 @@
 
 AWSTemplateFormatVersion: 2010-09-09
+
 Parameters:
   PubSubnets: 
     Description: Public subnets
@@ -20,8 +21,9 @@ Parameters:
   KieranCDNaliases: 
     Description: Domain name
     Type: String
-
+  
 Resources: 
+
   AppLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
@@ -99,6 +101,10 @@ Resources:
               - AppLoadBalancer
               - DNSName
             Id: AppLoadBalancer
+          # - DomainName: !GetAtt
+          #     - AppLoadBalancer
+          #     - DNSName
+          #   Id: AppLoadBalancer
             CustomOriginConfig:
               HTTPPort: 80
               HTTPSPort: 443
@@ -182,6 +188,9 @@ Resources:
           Action:
           - S3:*
       Bucket: !Ref KieranS3
+
+
+
 
   KieranLaunchTemp:
     Type: 'AWS::EC2::LaunchTemplate'
