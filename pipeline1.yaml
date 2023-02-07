@@ -184,7 +184,7 @@ Resources:
                   ],
                 ]
             StackName: !Ref ApplicationStackName
-            TemplateConfiguration: SourceArtifact::param.yaml
+            TemplateConfiguration: "SourceArtifact::param.yaml"
             TemplatePath: "SourceArtifact::webflow.yaml"
           RunOrder: 2
       - Name: CodeBuild
