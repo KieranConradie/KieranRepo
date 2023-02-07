@@ -103,7 +103,7 @@ Resources:
             Version: 1
             Provider: CodeStarSourceConnection
           OutputArtifacts:
-          - Name: SourceArtifact
+          - Name: SourceOutput
           Configuration:
             ConnectionArn: arn:aws:codestar-connections:eu-west-1:311668141734:connection/0df4f9d2-c1db-4087-aefc-4f1973c13aac
             BranchName: !Ref GitHubBranch
@@ -120,7 +120,7 @@ Resources:
             Provider: CloudFormation
             Version: '1'
           InputArtifacts:
-            - Name: SourceArtifact
+            - Name: SourceOutput
           Configuration:
             ActionMode: CREATE_UPDATE
             Capabilities: CAPABILITY_NAMED_IAM
@@ -134,7 +134,7 @@ Resources:
                   ],
                 ]
             StackName: KieranDemoSecurityStack
-            TemplatePath: "SourceArtifact::Security.yaml"
+            TemplatePath: "SourceOutput::Security.yaml"
           RunOrder: 1
         - Name: WAF
           Region: us-east-1
@@ -144,7 +144,7 @@ Resources:
             Provider: CloudFormation
             Version: '1'
           InputArtifacts:
-            - Name: SourceArtifact
+            - Name: SourceOutput
           Configuration:
             ActionMode: CREATE_UPDATE
             Capabilities: CAPABILITY_NAMED_IAM
@@ -158,7 +158,7 @@ Resources:
                   ],
                 ]
             StackName: KieranDemoWafStack
-            TemplatePath: "SourceArtifact::waf.yaml"
+            TemplatePath: "SourceOutput::waf.yaml"
           RunOrder: 1 
 
       - Name: ApplicationDeploy
@@ -170,7 +170,7 @@ Resources:
             Provider: CloudFormation
             Version: '1'
           InputArtifacts:
-            - Name: SourceArtifact
+            - Name: SourceOutput
           Configuration:
             ActionMode: CREATE_UPDATE
             Capabilities: CAPABILITY_NAMED_IAM
@@ -184,9 +184,10 @@ Resources:
                   ],
                 ]
             StackName: !Ref ApplicationStackName
-            TemplateConfiguration: "SourceArtifact::param.yaml"
-            TemplatePath: "SourceArtifact::webflow.yaml"
+            TemplateConfiguration: "SourceOutput::param.yaml"
+            TemplatePath: "SourceOutput::webflow.yaml"
           RunOrder: 2
+          
       - Name: CodeBuild
         Actions:
         - Name: CodeBuild
@@ -196,12 +197,12 @@ Resources:
             Provider: CodeBuild
             Version: '1'
           InputArtifacts:
-            - Name: SourceArtifact
+            - Name: SourceOutput
           OutputArtifacts:
             - Name: KieranCDstore
           Configuration: 
             ProjectName: !Ref KieranCodeBuildProject
-            PrimarySource: SourceArtifact
+            PrimarySource: SourceOutput
           RunOrder: 2
 
       - Name: Deploy
