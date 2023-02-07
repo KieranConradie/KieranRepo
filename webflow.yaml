@@ -1,33 +1,7 @@
 
 AWSTemplateFormatVersion: 2010-09-09
-
-Parameters:
-  PubSubnets:
-    Type: String
-    Default: subnet-011c03bcc5bc7c71d
-  KieranCDNcert:
-    Type: String
-    Default: arn:aws:acm:us-east-1:311668141734:certificate/318b8b77-afd0-4a57-b4e5-b9eae509d4b2
-  KieranALBcert:
-    Type: String
-    Default: arn:aws:acm:eu-west-1:311668141734:certificate/9b7a4dfc-9a0a-43eb-8237-0b4390bff972
-  R53HZ:
-    Type: String
-    Default: devops-dev.alit.co.za.
-  KieranCDNaliases:
-    Type: String
-    Default: kieran.devops-dev.alit.co.za
-  # KieranWebACLID:
-  #   Type: String
-  #   Default: !ImportValue webacl 
-  #   # b29458c7-7fba-4f68-9fb8-e56f37c97168
-        # arn:aws:wafv2:eu-west-1:311668141734:regional/webacl/KieranWAF/6fce13f0-62a6-46dd-9b83-478df7499515
-    
-    # lets try it one more time
-    #arn:aws:sts::311668141734:assumed-role/Kierancodebuildservicerole/AWSCodeBuild-161d550a-36bb-4903-94d5-09302d955db3
-
+ 
 Resources: 
-
   AppLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
@@ -105,10 +79,6 @@ Resources:
               - AppLoadBalancer
               - DNSName
             Id: AppLoadBalancer
-          # - DomainName: !GetAtt
-          #     - AppLoadBalancer
-          #     - DNSName
-          #   Id: AppLoadBalancer
             CustomOriginConfig:
               HTTPPort: 80
               HTTPSPort: 443
@@ -192,9 +162,6 @@ Resources:
           Action:
           - S3:*
       Bucket: !Ref KieranS3
-
-
-
 
   KieranLaunchTemp:
     Type: 'AWS::EC2::LaunchTemplate'

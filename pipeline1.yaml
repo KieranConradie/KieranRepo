@@ -1,14 +1,10 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: github-codepipeline
-
+Mappings:
+  Accounts:
+    DEV:
+      Number: 311668141734
 Parameters:
-  # GitHubOAuthToken:
-  #   Type: String
-  #   NoEcho: true
-  #   MinLength: 10
-  #   MaxLength: 93
-  #   AllowedPattern: '[A-Za-z0-9_]*'
-
   GitHubOwner:
     Type: String
     Default: KieranConradie
@@ -43,12 +39,6 @@ Parameters:
 
 
 Resources:
-  # PipelineArtifactsBucket:
-  #   Type: AWS::S3::Bucket
-  #   Properties:
-  #     VersioningConfiguration:
-  #       Status: Enabled
-  
   KieranCodeBuildProject:
     Type: 'AWS::CodeBuild::Project'
     Properties:
@@ -118,7 +108,6 @@ Resources:
             ConnectionArn: arn:aws:codestar-connections:eu-west-1:311668141734:connection/0df4f9d2-c1db-4087-aefc-4f1973c13aac
             BranchName: !Ref GitHubBranch
             OutputArtifactFormat: "CODE_ZIP"
-            # PollForSourceChanges: false
             FullRepositoryId: !Ref FullRepoId
 
       
@@ -135,7 +124,15 @@ Resources:
           Configuration:
             ActionMode: CREATE_UPDATE
             Capabilities: CAPABILITY_NAMED_IAM
-            RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
+            RoleArn:
+                !Join [
+                  "",
+                  [
+                    "arn:aws:iam::",
+                    !FindInMap [Accounts, DEV, Number],
+                    ":role/kieran_pipeline_role",
+                  ],
+                ]
             StackName: KieranDemoSecurityStack
             TemplatePath: "SourceArtifact::Security.yaml"
           RunOrder: 1
@@ -151,7 +148,15 @@ Resources:
           Configuration:
             ActionMode: CREATE_UPDATE
             Capabilities: CAPABILITY_NAMED_IAM
-            RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
+            RoleArn:
+                !Join [
+                  "",
+                  [
+                    "arn:aws:iam::",
+                    !FindInMap [Accounts, DEV, Number],
+                    ":role/kieran_pipeline_role",
+                  ],
+                ]
             StackName: KieranDemoWafStack
             TemplatePath: "SourceArtifact::waf.yaml"
           RunOrder: 1 
@@ -169,8 +174,17 @@ Resources:
           Configuration:
             ActionMode: CREATE_UPDATE
             Capabilities: CAPABILITY_NAMED_IAM
-            RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
+            RoleArn:
+                !Join [
+                  "",
+                  [
+                    "arn:aws:iam::",
+                    !FindInMap [Accounts, DEV, Number],
+                    ":role/kieran_pipeline_role",
+                  ],
+                ]
             StackName: !Ref ApplicationStackName
+            TemplateConfiguration: SourceArtifact::param.yaml
             TemplatePath: "SourceArtifact::webflow.yaml"
           RunOrder: 2
       - Name: CodeBuild
@@ -201,7 +215,6 @@ Resources:
           InputArtifacts:
             - Name: KieranCDstore
           Configuration:
-            # RoleArn: arn:aws:iam::311668141734:role/kieran_pipeline_role
             ApplicationName: !Ref KieranWebApp
             DeploymentGroupName: !Ref KieranWebappDeploymentGroup
           RunOrder: 3
