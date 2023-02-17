@@ -172,22 +172,22 @@ Resources:
         - Key: OWNER
           Value: Kieran@al.co.za
 
-  # KieranS3Policy:
-  #   Type: AWS::S3::BucketPolicy
-  #   Properties:
-  #     PolicyDocument: 
-  #       Version: 2012-10-17
-  #       Statement:
-  #       - Effect: Allow
-  #         Principal: "*"
-  #         Resource: !Join
-  #           - ''
-  #           - - 'arn:aws:s3:::'
-  #             - !Ref KieranS3
-  #             - /*
-  #         Action:
-  #         - S3:*
-  #     Bucket: !Ref KieranS3
+  KieranS3Policy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument: 
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal: "*"
+          Resource: !Join
+            - ''
+            - - 'arn:aws:s3:::'
+              - !Ref KieranS3
+              - /*
+          Action:
+          - S3:*
+      Bucket: !Ref KieranS3
 
   KieranLaunchTemp:
     Type: 'AWS::EC2::LaunchTemplate'
